@@ -13,7 +13,7 @@ const Container = styled.div`
 const Announcement = () => {
   return (
       <Container>
-         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+         Lorem ipsum dolor sit amet consectetur adipisicing elit add.
       </Container>
     
   )
