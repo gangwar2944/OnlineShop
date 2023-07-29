@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import CategoryItem from './CategoryItem'
-import { categories } from "../data";
 import { mobile } from '../responsive';
+import { privateRequest } from '../requestMethods';
 
 
 const Container = styled.div`
@@ -19,6 +19,18 @@ const CategoryContainer = styled.div`
 `
 
 const Categories = () => {
+    const [categories,setCategories] = useState([]);
+    useEffect(()=>{
+          const getCategories= async ()=> {
+                try{
+                let res = await privateRequest.get("/category/getAll");
+                setCategories(res.data);
+                }catch(error){
+                 console.log(error);
+                }
+          }
+          getCategories();
+    },[])
     return (
         <>
             <Container>

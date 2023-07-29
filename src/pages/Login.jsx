@@ -87,7 +87,7 @@ const Error = styled.div`
   color: red;
 `
 const Login = () => {
-  const [username,setUsername] = useState("");
+  const [email,setEmail] = useState("");
   const [password,setPassword] = useState("");
 
   const {isFetching,error} = useSelector((state)=>state.user)
@@ -96,7 +96,7 @@ const Login = () => {
 
   const handleClick =(e)=>{
         e.preventDefault();
-        login(dispatch,{username,password});
+        login(dispatch,{email,password});
   }
   return (
     <>
@@ -104,10 +104,10 @@ const Login = () => {
         <Wrapper>
           <Title>Sign In</Title>
           <Form>
-            <Input placeholder="Enter your UserName & email" onChange={(e)=>setUsername(e.target.value)}/>
+            <Input placeholder="Enter your UserName & email" onChange={(e)=>setEmail(e.target.value)}/>
             <Input placeholder="Enter your Password" onChange={(e)=>setPassword(e.target.value)}/>
             <Button onClick={handleClick} disabled={isFetching}>Login</Button>
-            {/* {error && <Error>Something went wrong ....</Error>} */}
+            {error && <Error>Something went wrong ....</Error>}
           </Form>
           <AnotherOption>
             <Links>Forget Password</Links>

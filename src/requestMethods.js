@@ -1,18 +1,33 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api";
-// const TOKEN =JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.accessToken;
 
-const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYTliODQ1NzRiNDgxYzg4MjZmMzVlZCIsImlzQWRtaW4iOnRydWUsImlhdCI6MTY1NjkyODMzNCwiZXhwIjoxNjU3MzYwMzM0fQ._m-nhGuCvrJ0TjiMEKgyIw9RPa-F0L3b7uj85bffht8";
+const BASE_URL = "http://localhost:8080/api/v1/";
 
-// console.log(BASE_URL)
+const TOKEN =JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser?.token;
+// const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4eXpAZ21haWwuY29tIiwiaWF0IjoxNjgzNTY0OTQ3LCJleHAiOjE2ODM2NTEzNDd9.aUsDr9taCRRNKbvz0bx2vOTeIF5loW--DziSHIhSVLg";
+// console.log(TOKEN)
+const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${TOKEN}`
+  }
+
 export const publicRequest = axios.create({
     baseUrl : BASE_URL,
 });
 
-export const  userRequest = axios.create({
+export const userRequest = axios.create({
     baseUrl : BASE_URL,
-    headers :{token:`Bearer ${TOKEN}`},
+    headers :headers,
 });
 
-// console.log(TOKEN)
+export const privateRequest = axios.create({
+    baseURL : BASE_URL
+});
+privateRequest.interceptors.request.use(
+    (config)=>{
+        if(TOKEN){
+            config.headers.common.Authorization =`Bearer ${TOKEN}`;
+         }
+    return config;
+},(error)=>Promise.reject(error)
+);

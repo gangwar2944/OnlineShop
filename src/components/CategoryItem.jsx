@@ -51,7 +51,7 @@ const CategoryItem = ({ item }) => {
   return (
     <>
       <Container>
-        <Link to={`/products/${item.cat}`}>
+        <Link to={`/products/${item.id}`}>
         <CategoryItems>
           <Image src={item.img}/>
           <Info>

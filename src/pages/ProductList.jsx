@@ -38,8 +38,6 @@ const Select = styled.select`
 const Option = styled.option`
     
 `
-
-
 const ProductList = () => {
     const location = useLocation();
     const cat = location.pathname.split("/")[2];

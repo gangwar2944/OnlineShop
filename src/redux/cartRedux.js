@@ -9,20 +9,37 @@ const cartSlice = createSlice({
     },
     reducers:{
         addProducts:(state,action)=>{
-            state.quantity +=1;
-            state.products.push(action.payload);
-            state.total += action.payload.price * action.payload.quantity;
+            let ispresent = false;
+            state.products.forEach((item)=>{
+                if(item.id==action.payload.id){
+                    ispresent=true;
+                }
+            })
+            if(ispresent){
+                alert("this product is already in cart");
+                return;
+            }else{
+              state.quantity +=1;
+              state.products.push(action.payload);
+              state.total += action.payload.price * action.payload.quantity;
+            }
+         
         },
         delProducts:(state,action)=>{
             const nextCartItem = state.products.filter(
-                (cartItem)=>cartItem._id!==action.payload._id
+                (cartItem)=>cartItem.id!==action.payload.id
             );
             state.quantity -=1;
             state.products = nextCartItem;
             state.total -= action.payload.price * action.payload.quantity*1;
         },
+        moveProductsFromCartToDatabase:(state)=>{
+            state.quantity =0;
+            state.products = [];
+            state.total = 0;
+        },
     },
 })
 
-export const {addProducts,delProducts} = cartSlice.actions;
+export const {addProducts,delProducts,moveProductsFromCartToDatabase} = cartSlice.actions;
 export default cartSlice.reducer;

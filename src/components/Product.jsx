@@ -78,7 +78,7 @@ const Product = ({item}) => {
         <Container>
             <Circle/>
               <ImgConatainer>
-                 <Image src={item.img} alt="photo" />
+                 <Image src={item.image} alt="photo" />
               </ImgConatainer>
              
              <Info>
@@ -86,7 +86,7 @@ const Product = ({item}) => {
                        <AiOutlineShoppingCart/>
                    </Icon>
                    <Icon>
-                    <Link to={`/product/${item.id || item._id}`}>
+                    <Link to={`/product/${item.id}`}>
                        <AiOutlineSearch/>
                     </Link>                      
                    </Icon>

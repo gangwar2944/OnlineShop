@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {AiOutlineHome, AiOutlineSearch,AiOutlineShoppingCart} from 'react-icons/ai'
 import './css/style.css';
 import styled from "styled-components";
@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../redux/userRedux';
+import { saveCartData } from '../redux/apiCalls';
+import { moveProductsFromCartToDatabase } from '../redux/cartRedux';
 
 const NavContainer = styled.div`
     display: flex;
@@ -95,11 +97,17 @@ const Login = styled.span`
    ${mobile({fontSize:"18px",margin:"0 10px"})}
 `
 const Button  = styled.button`
-      margin:0 20px ;
+   margin:0 20px ;
    text-decoration: none;
    color: #000;
-   font-size: 20px;
-   ${mobile({fontSize:"18px",margin:"0 10px"})}
+   background: #e4e3e3;
+   font-size: 16px;
+   padding:4px 8px;
+   border:0.5px solid black;
+   border: none;
+   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+   border-radius: 5px;
+   ${mobile({fontSize:"14px",margin:"0 10px"})}
 `
 const ShopingCart = styled.div`
     position: relative;
@@ -124,18 +132,35 @@ const CartItemCount = styled.div`
     align-items: center;
     font-size: 14px;
 `
-
-
 const Navbar = () => {
+    const [cartData,setCartData] = useState({
+        userId:{},
+        products:[],
+        quantity:0,
+        total:0
+    })
     const dispatch = useDispatch();
     let quantity = useSelector(state=>state.cart.quantity);
-    // const quantity = useSelector(state=>state.cart);
-    // console.log(quantity)
+    const cart = useSelector(state=>state.cart);
+    // console.log(cart.products)
     const user=useSelector(state=>state.user.currentUser) 
-    // const user=false
+    // const cuser=useSelector(state=>state.user) 
 
+  useEffect(()=>{
+      setCartData({
+        userId:user,
+        products:cart.products,
+        quantity:cart.quantity,
+        total:cart.total
+    })
+  },[])
+  
    const userLogout =() =>{
-        dispatch(logout())
+        if(cartData.quantity>0){
+            saveCartData(cartData);
+        }
+        dispatch(moveProductsFromCartToDatabase());
+        dispatch(logout());
        
    }
     

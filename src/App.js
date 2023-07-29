@@ -14,9 +14,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-         
         <Routes>
-         
           <Route exact path="/" element={<Home />} />
           <Route path="/products/:category" element={<ProductList />} />
           <Route path="/product/:id" element={<SingleProduct />} />
@@ -27,8 +25,6 @@ function App() {
           {/* <Route path="*" element={<NoPage />} /> */}
         </Routes>
       </BrowserRouter>
-
-
     </div>
   );
 }

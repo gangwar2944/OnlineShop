@@ -7,10 +7,11 @@ import { mobile } from '../responsive';
 import { useSelector, useDispatch } from 'react-redux';
 import StripeCheckout from "react-stripe-checkout"
 import { useEffect, useState } from 'react';
-import { publicRequest, userRequest } from "../requestMethods"
+import { privateRequest, userRequest } from "../requestMethods"
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillDelete } from "react-icons/ai"
-import { delProducts } from '../redux/cartRedux';
+import { addProducts, delProducts } from '../redux/cartRedux';
+import {getCartDataFromDB} from '../redux/apiCalls'
 
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -67,6 +68,8 @@ const Hr = styled.hr`
 const Product = styled.div`
     display: flex;
     justify-content: space-between;
+    margin: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     ${mobile({ flexDirection: "column", margin: "10px" })}
 `
 const ProductDetail = styled.div`
@@ -126,7 +129,7 @@ const ProductRemove = styled.div`
 `
 
 const ProductAmount = styled.div`
-   font-size: 24px;
+   font-size: 18px;
    padding: 10px;
 `
 const ProductPrice = styled.div`
@@ -139,6 +142,7 @@ const Summary = styled.div`
    border-radius: 10px;
    padding: 20px;
    height: 60vh;
+   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `
 const SummaryTitle = styled.h1`
     font-weight: 200;
@@ -186,14 +190,23 @@ const Small= styled.small`
     flex-direction: column;
 `
 const Cart = () => {
+    const [cartData,setCartData] = useState({
+        id:-1,
+        products :[{}],
+        quantity:0,
+        total:0,
+        userId:{}
+    });
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
+    const user=useSelector(state=>state.user.currentUser) 
+
     const [stripeToken, setStripeToken] = useState(null)
     const navigate = useNavigate();
     const onToken = (token) => {
         setStripeToken(token);
     }
-    //  console.log(cart)
+     console.log(cart)
     useEffect(() => {
         const makeRequest = async (req, res) => {
             try {
@@ -208,6 +221,36 @@ const Cart = () => {
         }
         stripeToken && makeRequest();
     }, [stripeToken, cart.total, navigate])
+
+    // useEffect(()=>{
+              
+    // },[])
+
+    useEffect(()=>{
+       
+          const getCartData = async ()=> {
+                try{
+                let res = await privateRequest.get(`/cart/getAllCart/${user.id}`);
+                console.log(res.data.data)
+                setCartData(res.data.data);
+                console.log("hii vishal")
+                }catch(error){
+                 console.log(error);
+                }
+          }
+         
+       console.log(cartData)
+       if(cartData.quantity>0){
+          cartData.products.forEach((itemData)=>{
+            console.log(itemData)
+            let quantity = cartData.quantity;
+            dispatch(addProducts({...itemData,quantity}));
+          })
+       }
+       
+        //   dispatch(addProducts({...cartData.products}))   
+        getCartData();
+    },[])
 
     const delItem = (product) => {
         dispatch(delProducts(product))
@@ -233,12 +276,12 @@ const Cart = () => {
                     <Buttom>
                         <Info>
                             {cart.products?.map((product) => (
-                                <Product key={product._id}>
+                                <Product key={product.id}>
                                     <ProductDetail>
-                                        <Image src={product.img}></Image>
+                                        <Image src={product.image}></Image>
                                         <Details>
                                             <ProductName> <b>Prodcut : </b>{product.title}</ProductName>
-                                            <ProductId> <b>ID:</b> {product._id.slice(10)}</ProductId>
+                                            <ProductId> <b>ID:</b> {product.id}</ProductId>
                                             <ProductColorContainer>
                                                 <b>Color: </b> <ProductColor color={product.color} />
 
@@ -248,9 +291,9 @@ const Cart = () => {
                                     </ProductDetail>
                                     <PriceDetail>
                                         <ProductAmountContainer>
-                                            <GrAdd />
-                                            <ProductAmount>{product.quantity}</ProductAmount>
-                                            <MdRemove />
+                                            {/* <GrAdd /> */}
+                                            <ProductAmount><b> Quantity : </b> {product.quantity}</ProductAmount>
+                                            {/* <MdRemove /> */}
                                         </ProductAmountContainer>
                                         <ProductRemove style={{ position: "relative" }}>
                                             <b>Remove:</b>
@@ -263,9 +306,9 @@ const Cart = () => {
                                         </ProductPrice>
                                     </PriceDetail>
                                 </Product>
-
+                                
                             ))}
-                            <hr />
+                            
                         </Info>
                         <Summary>
                             <SummaryTitle>ORDER SUMMARY </SummaryTitle>

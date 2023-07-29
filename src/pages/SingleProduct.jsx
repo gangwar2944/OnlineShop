@@ -6,7 +6,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import { mobile } from '../responsive';
-import { publicRequest } from '../requestMethods';
+import { privateRequest, publicRequest } from '../requestMethods';
 import { addProducts } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
 
@@ -124,9 +124,6 @@ const Button = styled.button`
     color: #fff;
 }
 `
-
-
-
 const SingleProduct = () => {
     const location = useLocation();
     const id = location.pathname.split("/")[2];
@@ -136,13 +133,14 @@ const SingleProduct = () => {
     const [color,setColor] = useState(null);
     const [size,setSize] = useState(null);
     const dispatch = useDispatch()
-
+    
     useEffect(() => {
         const getProduct = async () => {
             try {
-                const res = await publicRequest.get("http://localhost:5000/api/products/find/" + id);
-                setProduct(res.data)
-                // console.log(res)
+                const res = await privateRequest.get(`http://localhost:8080/api/v1/product/getAll/${id}`);
+        
+                setProduct(res.data.data)
+                
                }catch(err){
                     console.log(err)
                 }
@@ -156,6 +154,7 @@ const SingleProduct = () => {
                 (quantity===1) ? setQuantity(1): setQuantity(quantity-1);
             }
         }
+        console.log(product);
        const handleClick=()=>{
         dispatch(addProducts({...product,quantity,color,size}))         
        }
@@ -166,25 +165,25 @@ const SingleProduct = () => {
                 <Navbar/>
                 <Wrapper >
                     <ImgContainer>
-                        <Image src={product.img} />
+                        <Image src={product.image} />
                     </ImgContainer>
                     <InfoContainer>
                         <Title>{product.title}</Title>
-                        <Disc>{product.disc}</Disc>
+                        <Disc>{product.description}</Disc>
                         <Price> $ {product.price}</Price>
                         <FiterContainer>
                             <Filter>
-                                <FilterTitle>Color</FilterTitle>
-                                {product.color?.map((c)=>(
+                                <FilterTitle>Color  : {product.color}</FilterTitle>
+                                {/* {product.color.map((c)=>(
                                     <FilterColor color={c} key={c} onClick={()=>setColor(c)}/>
-                                ))}
+                                ))} */}
                             </Filter>
                             <Filter>
                                 <FilterTitle>Size</FilterTitle>
                                 <FilterSize onChange={(e)=>setSize(e.target.value)}>
-                                {product.size?.map((s)=>(
+                                {/* {product.size?.map((s)=>(
                                      <FilterSizeOption key={s}>{s}</FilterSizeOption>
-                                ))}
+                                ))} */}
                                 </FilterSize>
                             </Filter>
                         </FiterContainer>
