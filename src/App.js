@@ -8,6 +8,7 @@ import SingleProduct from './pages/SingleProduct';
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import Success from './pages/Success';
 import { useSelector } from 'react-redux';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   const user=useSelector(state=>state.user.currentUser)
@@ -22,7 +23,7 @@ function App() {
           <Route path="/register" element={user ? <Navigate to="/"/> :<Register />} />
           <Route path="/login" element={user ? <Navigate to="/"/> :<Login />} />
           <Route path="/success" element={<Success/>} />
-          {/* <Route path="*" element={<NoPage />} /> */}
+          <Route path="*" element={<ErrorPage/>} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,7 +7,6 @@ import { privateRequest } from '../requestMethods';
 
 const Container = styled.div`
      width: 98vw;
-    margin: 1vw;
     background-color: aliceblue;
 `
 const CategoryContainer = styled.div`

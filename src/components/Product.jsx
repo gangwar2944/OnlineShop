@@ -2,6 +2,7 @@ import React from 'react'
 import styled from "styled-components";
 import {AiOutlineShoppingCart,AiOutlineSearch,AiOutlineHeart} from "react-icons/ai"
 import { Link } from 'react-router-dom';
+import { imageUrl } from '../requestMethods';
 
 const Info = styled.div` 
 
@@ -71,6 +72,7 @@ const Icon = styled.div`
 `
 
 const Product = ({item}) => {
+
   return (
     
     <>
@@ -78,7 +80,7 @@ const Product = ({item}) => {
         <Container>
             <Circle/>
               <ImgConatainer>
-                 <Image src={item.image} alt="photo" />
+                 <Image src={`${imageUrl}/${item.image}`} alt="photo" />
               </ImgConatainer>
              
              <Info>

@@ -1,22 +1,21 @@
 import axios from "axios";
 
 
-const BASE_URL = "http://localhost:8080/api/v1/";
+const BASE_URL = "http://localhost:8000/api/v1/";
 
 const TOKEN =JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser?.token;
-// const TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ4eXpAZ21haWwuY29tIiwiaWF0IjoxNjgzNTY0OTQ3LCJleHAiOjE2ODM2NTEzNDd9.aUsDr9taCRRNKbvz0bx2vOTeIF5loW--DziSHIhSVLg";
-// console.log(TOKEN)
+
 const headers = {
     'Content-Type': 'application/json',
     'Authorization': `Bearer ${TOKEN}`
   }
 
 export const publicRequest = axios.create({
-    baseUrl : BASE_URL,
+    baseURL : BASE_URL,
 });
 
 export const userRequest = axios.create({
-    baseUrl : BASE_URL,
+    baseURL : BASE_URL,
     headers :headers,
 });
 
@@ -31,3 +30,5 @@ privateRequest.interceptors.request.use(
     return config;
 },(error)=>Promise.reject(error)
 );
+
+export const imageUrl = 'http://localhost:8000/api/v1/files/getImage';

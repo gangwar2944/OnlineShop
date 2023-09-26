@@ -1,21 +1,16 @@
 import styled from 'styled-components';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import { GrAdd } from "react-icons/gr";
-import { MdFormatSize, MdRemove } from "react-icons/md";
 import { mobile } from '../responsive';
 import { useSelector, useDispatch } from 'react-redux';
 import StripeCheckout from "react-stripe-checkout"
 import { useEffect, useState } from 'react';
-import { privateRequest, userRequest } from "../requestMethods"
+import { imageUrl, privateRequest, userRequest } from "../requestMethods"
 import { Link, useNavigate } from 'react-router-dom';
 import { AiFillDelete } from "react-icons/ai"
 import { addProducts, delProducts } from '../redux/cartRedux';
-import {getCartDataFromDB} from '../redux/apiCalls'
-
 
 const KEY = process.env.REACT_APP_STRIPE;
-// const KEY = "pk_test_51LCnnkSEzXF0AhfQiwUzzMSooZQ82fpw9QCCR84ZjfmWZBoUqPao0uqumjRlTxagDFT2KdU3vWAYGwcgL496S6Z100i3aRLrI0";
 
 const Container = styled.div`
     
@@ -195,7 +190,7 @@ const Cart = () => {
         products :[{}],
         quantity:0,
         total:0,
-        userId:{}
+        userId:null,
     });
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
@@ -233,13 +228,13 @@ const Cart = () => {
                 let res = await privateRequest.get(`/cart/getAllCart/${user.id}`);
                 console.log(res.data.data)
                 setCartData(res.data.data);
-                console.log("hii vishal")
+                // console.log("hii vishal")
                 }catch(error){
                  console.log(error);
                 }
           }
          
-       console.log(cartData)
+       console.log("cartData",cartData)
        if(cartData.quantity>0){
           cartData.products.forEach((itemData)=>{
             console.log(itemData)
@@ -278,12 +273,12 @@ const Cart = () => {
                             {cart.products?.map((product) => (
                                 <Product key={product.id}>
                                     <ProductDetail>
-                                        <Image src={product.image}></Image>
+                                        <Image src={`${imageUrl}/${product.image}`} ></Image>
                                         <Details>
                                             <ProductName> <b>Prodcut : </b>{product.title}</ProductName>
                                             <ProductId> <b>ID:</b> {product.id}</ProductId>
                                             <ProductColorContainer>
-                                                <b>Color: </b> <ProductColor color={product.color} />
+                                                <b>Color: </b> <ProductColor  color={product.color}></ProductColor>
 
                                             </ProductColorContainer>
                                             <ProductSize> <b>Size : </b>{product.size}</ProductSize>

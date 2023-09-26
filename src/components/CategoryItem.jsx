@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
+import { imageUrl } from '../requestMethods';
 
 const Container = styled.div`
     flex:1;
@@ -53,7 +54,7 @@ const CategoryItem = ({ item }) => {
       <Container>
         <Link to={`/products/${item.id}`}>
         <CategoryItems>
-          <Image src={item.img}/>
+          <Image src={`${imageUrl}/${item.img}`} alt="photo" />
           <Info>
             <InfoTitle>{item.title}</InfoTitle>
             <Button>SHOP NOW</Button>

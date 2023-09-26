@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 const Container = styled.div`
     margin-top: 80px;
-    width:100vw;
+    width:98.5vw;
     height: 50vh;
     display: flex;
     background-color: #bfdada;

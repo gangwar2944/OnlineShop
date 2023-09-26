@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import {AiOutlineHome, AiOutlineSearch,AiOutlineShoppingCart} from 'react-icons/ai'
+import {FiLogOut,FiLogIn} from 'react-icons/fi'
 import './css/style.css';
 import styled from "styled-components";
 import {mobile,tablate} from "../responsive"
@@ -132,6 +133,20 @@ const CartItemCount = styled.div`
     align-items: center;
     font-size: 14px;
 `
+const Signoutbtn= styled.div`
+    margin:5px 10px;
+    background-color: teal;
+    color: #fff;
+    width:100px;
+    border-radius:5px;
+    padding:5px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    text-decoration: none;
+    list-style: none;
+`
 const Navbar = () => {
     const [cartData,setCartData] = useState({
         userId:{},
@@ -180,8 +195,8 @@ const Navbar = () => {
                 </Search>
                 <Links>
                     
-                    { user ? <Button onClick={userLogout}>Logout</Button>  : <> <Link to="/register"><Register>Register</Register></Link>
-                    <Link to="/login"><Login >Login</Login></Link></>}
+                    { user ? <Signoutbtn onClickCapture={userLogout}>Sign out <FiLogOut style={{marginLeft:"5px"}}/> </Signoutbtn>  : <> <Link to="/register"><Signoutbtn>Register</Signoutbtn></Link>
+                    <Link to="/login"><Signoutbtn >Login <FiLogIn/></Signoutbtn></Link></>}
                     <ShopingCart>
                         <CartIcon><Link to="/cart" ><AiOutlineShoppingCart/></Link></CartIcon>                       
                         {(quantity<1)?" ":<CartItemCount>{quantity}</CartItemCount>}

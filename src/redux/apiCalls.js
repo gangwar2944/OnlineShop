@@ -6,7 +6,7 @@ export const  login = async(dispatch,user)=>{
     // console.log(user);
     dispatch(loginStart());
     try{
-    const res = await publicRequest.post("http://localhost:8080/api/v1/auth/authenticate",user);
+    const res = await publicRequest.post("/auth/authenticate",user);
     console.log(res.data)
     dispatch(loginSuccess(res.data));
     }catch(err){

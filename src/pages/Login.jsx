@@ -11,11 +11,12 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #c3c0c0;
     /* background: linear-gradient((255,255,255,0.5),(255,255,255,0.5)); */
-    background-image: url("https://images.pexels.com/photos/1097456/pexels-photo-1097456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
-    background-repeat: no-repeat;
-    object-fit: cover;
-    background-image: center;
+    /* background-image: url("https://images.pexels.com/photos/1097456/pexels-photo-1097456.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"); */
+    /* background-repeat: no-repeat; */
+    /* object-fit: cover; */
+    /* background-image: center; */
 `
 const Wrapper = styled.div`
     margin-top: 60px;
@@ -26,6 +27,7 @@ const Wrapper = styled.div`
     align-items: flex-start;
     flex-direction: column;
     background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     padding: 20px;
     margin: auto;
     ${mobile({width:"80%"})}

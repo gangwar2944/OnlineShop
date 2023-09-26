@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,7 +5,7 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import Newsletter from '../components/Newsletter';
 import { mobile } from '../responsive';
-import { privateRequest, publicRequest } from '../requestMethods';
+import { imageUrl, privateRequest} from '../requestMethods';
 import { addProducts } from '../redux/cartRedux';
 import { useDispatch } from 'react-redux';
 
@@ -126,6 +125,29 @@ const Button = styled.button`
 `
 const SingleProduct = () => {
     const location = useLocation();
+
+    const sizeArr = [
+        {
+          id: 1,
+          name: "S",
+        },
+        {
+          id: 2,
+          name: "M",
+        },
+        {
+          id: 3,
+          name: "L",
+        },
+        {
+          id: 4,
+          name: "XL",
+        },
+        {
+          id: 5,
+          name: "XXL",
+        },
+      ];
     const id = location.pathname.split("/")[2];
 
     const [product, setProduct] = useState({});
@@ -137,7 +159,7 @@ const SingleProduct = () => {
     useEffect(() => {
         const getProduct = async () => {
             try {
-                const res = await privateRequest.get(`http://localhost:8080/api/v1/product/getAll/${id}`);
+                const res = await privateRequest.get(`/product/getProduct/${id}`);
         
                 setProduct(res.data.data)
                 
@@ -154,9 +176,9 @@ const SingleProduct = () => {
                 (quantity===1) ? setQuantity(1): setQuantity(quantity-1);
             }
         }
-        console.log(product);
+        console.log("product",product);
        const handleClick=()=>{
-        dispatch(addProducts({...product,quantity,color,size}))         
+        dispatch(addProducts({...product,quantity}))         
        }
       
     return (
@@ -165,7 +187,7 @@ const SingleProduct = () => {
                 <Navbar/>
                 <Wrapper >
                     <ImgContainer>
-                        <Image src={product.image} />
+                        <Image src={`${imageUrl}/${product.image}`} />
                     </ImgContainer>
                     <InfoContainer>
                         <Title>{product.title}</Title>
@@ -180,10 +202,21 @@ const SingleProduct = () => {
                             </Filter>
                             <Filter>
                                 <FilterTitle>Size</FilterTitle>
-                                <FilterSize onChange={(e)=>setSize(e.target.value)}>
-                                {/* {product.size?.map((s)=>(
-                                     <FilterSizeOption key={s}>{s}</FilterSizeOption>
-                                ))} */}
+                                <FilterSize  
+                                   className="dropdown"
+                                // type="text"
+                                   placeholder="size"
+                                   value={product.size}
+                                   id="size"
+                                   name="size"
+                                   onChange={()=>setSize()}
+                                >
+                               {sizeArr.map((item, index) => (
+                              <option value={item.name} key={index}>
+                               {item.name}
+                             </option>
+                          ))}
+        
                                 </FilterSize>
                             </Filter>
                         </FiterContainer>
