@@ -88,7 +88,7 @@ const Product = ({item}) => {
                        <AiOutlineShoppingCart/>
                    </Icon>
                    <Icon>
-                    <Link to={`/product/${item.id}`}>
+                    <Link to={`/product/${item.id}`} exact>
                        <AiOutlineSearch/>
                     </Link>                      
                    </Icon>

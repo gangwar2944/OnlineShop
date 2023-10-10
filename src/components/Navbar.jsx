@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../redux/userRedux';
 import { saveCartData } from '../redux/apiCalls';
 import { moveProductsFromCartToDatabase } from '../redux/cartRedux';
+import { deleteAddress } from '../redux/addressRedux';
 
 const NavContainer = styled.div`
     display: flex;
@@ -144,8 +145,6 @@ const Signoutbtn= styled.div`
     justify-content:center;
     align-items:center;
     cursor:pointer;
-    text-decoration: none;
-    list-style: none;
 `
 const Navbar = () => {
     const [cartData,setCartData] = useState({
@@ -175,6 +174,7 @@ const Navbar = () => {
             saveCartData(cartData);
         }
         dispatch(moveProductsFromCartToDatabase());
+        dispatch(deleteAddress());
         dispatch(logout());
        
    }
