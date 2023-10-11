@@ -76,24 +76,28 @@ const PriceDetail = styled.div`
 const ProductTitle = styled.p`
   font-size: 20px;
 `;
-const ProductAmountContainer = styled.div`
+const ProductQuantityContainer = styled.div`
   display: flex;
   align-items: center;
   font-weight: 600;
-  width: 130px;
+  /* width: 161px; */
+  flex: 1;
   justify-content: space-around;
   align-items: center;
   margin-bottom: 5px;
 `;
 const ProductRemove = styled.div`
   /* margin-bottom:15px; */
+  flex: 3;
 `;
-
+const ExtraContainer = styled.div`
+    flex: 2;
+`
 const ProductAmount = styled.div`
   font-size: 18px;
   width: 50px;
   height: 25px;
-  background-color: #ccc;
+  background-color: #fff;
   text-align: center;
   border: 1px solid;
 `;
@@ -105,7 +109,7 @@ align-items: center;
   font-weight: 700;
 `;
 const Span = styled.span`
-  background-color: #ccc;
+  background-color: #fff;
 `;
 const RemoveButton = styled.button`
   text-transform: uppercase;
@@ -152,11 +156,11 @@ const CartItem = (props) => {
           </DeleveryDetail>
         </ProductDetail>
         <PriceDetail>
-          <ProductAmountContainer>
+          <ProductQuantityContainer>
             <IoIosRemoveCircleOutline
               style={{
                 fontSize: "30px",
-                backgroundColor: "#ccc",
+                backgroundColor: "#fff",
                 borderRadius: "50%",
               }}
             />
@@ -166,16 +170,17 @@ const CartItem = (props) => {
             <IoIosAddCircleOutline
               style={{
                 fontSize: "30px",
-                backgroundColor: "#ccc",
+                backgroundColor: "#fff",
                 borderRadius: "50%",
               }}
             />
-          </ProductAmountContainer>
+          </ProductQuantityContainer>
           <ProductRemove style={{ position: "relative" }}>
             {/* <b>Remove:</b> */}
             <RemoveButton>Save for later</RemoveButton>
             <RemoveButton onClick={() => delItem(product)}>Remove</RemoveButton>
           </ProductRemove>
+          <ExtraContainer></ExtraContainer>
         </PriceDetail>
       </Product>
     </div>

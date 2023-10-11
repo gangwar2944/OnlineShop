@@ -74,7 +74,7 @@ const Image = styled.img`
     flex: 1;
 `
 const Button = styled.button`
-    width: 100%;
+    width: 20%;
     padding: 10px;
     background-color: teal;
     color: #fff;  
@@ -102,9 +102,7 @@ const Small= styled.small`
     flex-direction: column;
 `
 const FooterContainer = styled.div`
-    /* width: 70%; */
-    background-color: antiquewhite;
-    margin: auto;
+    text-align: right;
 `
 const Cart = () => {
     const [cartData,setCartData] = useState({

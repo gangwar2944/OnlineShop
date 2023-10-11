@@ -10,12 +10,15 @@ import Success from './pages/Success';
 import { useSelector } from 'react-redux';
 import ErrorPage from './pages/ErrorPage';
 import CheckOut from './Checkout/CheckOut';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const user=useSelector(state=>state.user.currentUser)
   return (
     <div className="App">
       <BrowserRouter>
+      <ToastContainer/>
         <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/products/:category" element={<ProductList />} />

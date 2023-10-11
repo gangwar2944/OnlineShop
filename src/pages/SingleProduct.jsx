@@ -8,13 +8,14 @@ import { mobile } from "../responsive";
 import { imageUrl, privateRequest } from "../requestMethods";
 import { addProducts } from "../redux/cartRedux";
 import { useDispatch } from "react-redux";
-import { Container } from "@mui/system";
-import { FaStarHalfAlt, FaRupeeSign } from "react-icons/fa";
+import { Container, display } from "@mui/system";
+import { FaStarHalfAlt, FaRupeeSign, FaStar } from "react-icons/fa";
 import {
-    IoIosRemoveCircleOutline,
-    IoIosAddCircleOutline,
-  } from "react-icons/io";
+  IoIosRemoveCircleOutline,
+  IoIosAddCircleOutline,
+} from "react-icons/io";
 import { toast } from "react-toastify";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const MainContainer = styled.div``;
 const Wrapper = styled.div`
@@ -45,12 +46,12 @@ const InfoContainer = styled.div`
   padding: 30px;
 `;
 const Title = styled.h1`
-  /* margin-bottom: 10px; */
   margin: 0px;
 `;
 const Disc = styled.p`
   letter-spacing: 1px;
   font-size: 18px;
+  margin: 5px 0;
 `;
 const Price = styled.h3`
   display: flex;
@@ -79,7 +80,7 @@ const PercentDiscount = styled.div`
 const FiterContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 10px 0;
+  margin: 5px 0;
   width: 50%;
   ${mobile({ width: "100%" })}
 `;
@@ -145,7 +146,6 @@ const Amount = styled.div`
 `;
 const ProductInfoContainer = styled.div`
   width: 100%;
-  /* height: 150px; */
   background-color: #fff;
   border-radius: 10px;
   padding: 15px;
@@ -193,6 +193,32 @@ const RatingReviewCOntainer = styled.div`
   justify-content: flex-start;
   align-items: center;
 `;
+const RatingProgressbarContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const RatingReview = styled.div`
+  flex: 2;
+`;
+const RatingContainer = styled.div`
+  margin: 15px 0;
+  display: flex;
+  color: teal;
+`;
+const RatingReviewsbar = styled.div`
+  flex: 4;
+`;
+const ProgressbarAndlabelContianer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+const Label = styled.div`
+  flex: 1;
+  margin: 5px 0;
+`;
+
 const Sizebutton = styled.button`
   width: 40px;
   height: 40px;
@@ -202,20 +228,38 @@ const Sizebutton = styled.button`
   outline: none;
   border: none;
   background-color: #b6b6b6;
-  transition: background-color 0.3s; /* Add a smooth transition effect */
+  transition: background-color 0.3s;
 
   &:hover {
     background-color: teal;
-    color: #fff; /* Change the background color on hover */
+    color: #fff;
   }
 
   ${({ isSelected }) =>
     isSelected &&
     `
-        background-color: teal; /* Apply a different color for the selected item */
-        color:#fff
+        background-color: teal;
+        color: #fff;
     `}
 `;
+
+const CustomLinearProgress = styled(LinearProgress)(({ theme, progress }) => ({
+  backgroundColor: "lightgray",
+  "& .MuiLinearProgress-bar": {
+    backgroundColor: getColorForProgress(progress),
+  },
+}));
+
+function getColorForProgress(progress) {
+  if (progress < 33.33) {
+    return "red";
+  } else if (progress < 66.67) {
+    return "orange";
+  } else {
+    return "green";
+  }
+}
+
 const SingleProduct = () => {
   const location = useLocation();
 
@@ -241,6 +285,7 @@ const SingleProduct = () => {
       name: "XXL",
     },
   ];
+
   const id = location.pathname.split("/")[2];
   const [selectedItem, setSelectedItem] = useState(null);
   const [product, setProduct] = useState({});
@@ -248,10 +293,13 @@ const SingleProduct = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const getProduct = async () => {
       try {
         const res = await privateRequest.get(`/product/getProduct/${id}`);
-
         setProduct(res.data.data);
       } catch (err) {
         console.log(err);
@@ -259,6 +307,7 @@ const SingleProduct = () => {
     };
     getProduct();
   }, [id]);
+
   const handleQuantity = (type) => {
     if (type === "incre") {
       setQuantity(quantity + 1);
@@ -266,47 +315,21 @@ const SingleProduct = () => {
       quantity === 1 ? setQuantity(1) : setQuantity(quantity - 1);
     }
   };
-  // console.log("product",product);
-  const addProductToCartAndSaveToDatabase =(product, quantity) => async (dispatch, getState) => {
-      try {
-        // Dispatch the action to add the product to the Redux store
-        dispatch(addProducts({ ...product, quantity }));
-        // toast.success("Product add to cart successfully.",{
-        //     position:toast.POSITION.BOTTOM_RIGHT,
-        //   })
-
-        // Make a POST request to save the product to the database
-        //   await axios.post(API_URL, { product });
-
-        // Optionally, you can dispatch an action to indicate that the product was successfully saved
-        // dispatch(productSavedSuccess());
-      } catch (error) {
-        console.error("Error saving product to the database:", error);
-      }
-    };
-
-  const handleInputChange = (e) => {
-    // Extract the name and value of the input field
-    const { name, value } = e.target;
-    // Update the form data state with the new value
-    setProduct({
-      ...product, // Keep the existing form data
-      [name]: value, // Update the specific field by its name
-    });
-  };
-
-  const handleClick = () => {
-    // dispatch(addProductToCartAndSaveToDatabase({ ...product, quantity }));
-    dispatch(addProducts({ ...product, quantity }));
-  };
-
-  const buyNow = () => {
-    console.log("Buy now");
-  };
 
   const handleSizeButtonClick = (value) => {
     setSelectedItem(value);
     setProduct({ ...product, size: value });
+  };
+
+  const handleClick = async () => {
+    await dispatch(addProducts({ ...product, quantity }));
+    toast.success("Product added to cart successfully", {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+  };
+
+  const buyNow = () => {
+    console.log("Buy now");
   };
 
   return (
@@ -360,10 +383,10 @@ const SingleProduct = () => {
                   <Sizebutton
                     value={item.name}
                     key={index}
-                    isSelected={selectedItem === item.name} // Check if the item is selected
+                    isSelected={selectedItem === item.name}
                     onClick={() => handleSizeButtonClick(item.name)}
                   >
-                    {item.name}{" "}
+                    {item.name}
                   </Sizebutton>
                 ))}
               </ProductInfoContainer>
@@ -371,22 +394,80 @@ const SingleProduct = () => {
                 <Title>Quantity</Title>
                 <AddContainer>
                   <AmountContainer>
-                    <RemoveAndAdd onClick={() => handleQuantity("dec")}><IoIosRemoveCircleOutline/></RemoveAndAdd>
+                    <RemoveAndAdd onClick={() => handleQuantity("dec")}>
+                      <IoIosRemoveCircleOutline />
+                    </RemoveAndAdd>
                     <Amount>{quantity}</Amount>
-                    <RemoveAndAdd onClick={() => handleQuantity("incre")}><IoIosAddCircleOutline/></RemoveAndAdd>
+                    <RemoveAndAdd onClick={() => handleQuantity("incre")}>
+                      <IoIosAddCircleOutline />
+                    </RemoveAndAdd>
                   </AmountContainer>
                 </AddContainer>
               </ProductInfoContainer>
               <ProductInfoContainer>
-                <Disc>{product.description}</Disc>
+                <Title>Product Details</Title>
+                <Disc>Name : {product.description}</Disc>
                 <FiterContainer>
                   <Filter>
                     <FilterTitle>Color : {product.color}</FilterTitle>
-                    {/* {product.color.map((c)=>(
-                                    <FilterColor color={c} key={c} onClick={()=>setColor(c)}/>
-                                ))} */}
                   </Filter>
                 </FiterContainer>
+                <Disc>Fabric : Cooton</Disc>
+                <Disc>Pattern : Solid</Disc>
+                <Disc>Net Quantity : 1</Disc>
+                <Disc>Country of Origin : India</Disc>
+              </ProductInfoContainer>
+              <ProductInfoContainer>
+                <Title>Product Ratings & Reviews</Title>
+                <RatingProgressbarContainer>
+                  <RatingReview>
+                    <RatingContainer>
+                      <p style={{ marginRight: "5px", fontSize: "30px" }}>
+                        4.5
+                      </p>
+                      <FaStar style={{ fontSize: "30px" }} />
+                    </RatingContainer>
+
+                    <p style={{ color: "gray" }}>1647 Ratings, 459 Reviews</p>
+                  </RatingReview>
+                  <RatingReviewsbar>
+                    <div>
+                      <Label>Excellent</Label>
+                      <CustomLinearProgress
+                        variant="determinate"
+                        value={68}
+                      />
+                    </div>
+                    <div>
+                      <Label>Very Good</Label>
+                      <CustomLinearProgress
+                        variant="determinate"
+                        value={60}
+                      />
+                    </div>
+                    <div>
+                      <Label>Good</Label>
+                      <CustomLinearProgress
+                        variant="determinate"
+                        value={50}
+                      />
+                    </div>
+                    <div>
+                      <Label>Average</Label>
+                      <CustomLinearProgress
+                        variant="determinate"
+                        value={25}
+                      />
+                    </div>
+                    <div>
+                      <Label>Poor</Label>
+                      <CustomLinearProgress
+                        variant="determinate"
+                        value={30}
+                      />
+                    </div>
+                  </RatingReviewsbar>
+                </RatingProgressbarContainer>
               </ProductInfoContainer>
             </InfoContainer>
           </Wrapper>

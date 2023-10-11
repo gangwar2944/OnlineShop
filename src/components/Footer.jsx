@@ -4,7 +4,10 @@ import { AiFillFacebook, AiFillInstagram,AiFillYoutube,AiOutlineTwitter,AiFillPh
 import {FaMapMarkerAlt} from "react-icons/fa"
 import { mobile, tablate } from '../responsive'
 const Container = styled.div`
+margin-top: 20px;
     display: flex;
+    background-color: #f2f2f2;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     ${mobile({flexDirection:"column"})}
 `
 const Left = styled.div`

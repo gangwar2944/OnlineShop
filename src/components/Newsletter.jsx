@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import {AiOutlineSend} from "react-icons/ai"
 import { mobile } from '../responsive'
 const Container = styled.div`
+margin-top: 20px;
     height: 60vh;
     background-color: #fcf5f5;
     display: flex;
