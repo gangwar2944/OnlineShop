@@ -176,7 +176,6 @@ const Navbar = () => {
         dispatch(moveProductsFromCartToDatabase());
         dispatch(deleteAddress());
         dispatch(logout());
-       
    }
     
   

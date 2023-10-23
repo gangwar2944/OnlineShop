@@ -3,13 +3,10 @@ import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
 import { mobile } from '../responsive';
 import { useSelector, useDispatch } from 'react-redux';
-import StripeCheckout from "react-stripe-checkout"
 import { useEffect, useState } from 'react';
-import { imageUrl, privateRequest, userRequest } from "../requestMethods"
+import { privateRequest, userRequest } from "../requestMethods"
 import { Link, useNavigate } from 'react-router-dom';
-import { AiFillDelete } from "react-icons/ai"
-import { addProducts, delProducts } from '../redux/cartRedux';
-import CheckOut from '../Checkout/CheckOut';
+import { addProducts} from '../redux/cartRedux';
 import CartItem from '../components/CartItem';
 
 const KEY = process.env.REACT_APP_STRIPE;
@@ -137,10 +134,6 @@ const Cart = () => {
         stripeToken && makeRequest();
     }, [stripeToken, cart.total, navigate])
 
-    // useEffect(()=>{
-              
-    // },[])
-
     useEffect(()=>{
        
           const getCartData = async ()=> {
@@ -171,7 +164,6 @@ const Cart = () => {
         navigate("checkout?step=2");
     }
 
-
     return (
         <>
             <Container>
@@ -192,11 +184,9 @@ const Cart = () => {
                                     <CartItem product={product}/>
                             ))}
                            <FooterContainer> <Button onClick={redirectAddressPage}>Place Order</Button></FooterContainer> 
-                        </Info>
-                      
+                        </Info>                    
                     </Buttom>
                 </Wrapper> :
-
                     <>
                         <EmptyContainer>
                             <Empty>
@@ -208,8 +198,7 @@ const Cart = () => {
                         </EmptyContainer>
 
                     </>
-                    }
-                    
+                    }                  
                 <Footer />
             </Container>
         </>
