@@ -6,10 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { privateRequest, userRequest } from "../requestMethods"
 import { Link, useNavigate } from 'react-router-dom';
-import { addProducts} from '../redux/cartRedux';
 import CartItem from '../components/CartItem';
 
-const KEY = process.env.REACT_APP_STRIPE;
+// const KEY = process.env.REACT_APP_STRIPE;
 
 const Container = styled.div`
     
@@ -57,14 +56,6 @@ const Info = styled.div`
     flex: 3;
     ${mobile({ marginBottom: "10px" })}
 `
-const Hr = styled.hr`
-    color: grey;
-`
-
-const ProductDetail = styled.div`
-    flex: 2;
-    display: flex;
-`
 const Image = styled.img`
     width: 150px;
     max-height: 160px;
@@ -109,15 +100,15 @@ const Cart = () => {
         total:0,
         userId:null,
     });
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const cart = useSelector(state => state.cart);
     const user=useSelector(state=>state.user.currentUser) 
 
     const [stripeToken, setStripeToken] = useState(null)
     const navigate = useNavigate();
-    const onToken = (token) => {
-        setStripeToken(token);
-    }
+    // const onToken = (token) => {
+    //     setStripeToken(token);
+    // }
      console.log(cart)
     useEffect(() => {
         const makeRequest = async (req, res) => {
@@ -151,8 +142,8 @@ const Cart = () => {
        if(cartData.quantity>0){
           cartData.products.forEach((itemData)=>{
             console.log(itemData)
-            let quantity = cartData.quantity;
-            dispatch(addProducts({...itemData,quantity}));
+            // let quantity = cartData.quantity;
+            // dispatch(addProducts({...itemData,quantity}));
           })
        }
        

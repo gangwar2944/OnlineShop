@@ -6,9 +6,7 @@ import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
 import { mobile } from "../responsive";
 import { imageUrl, privateRequest } from "../requestMethods";
-import { addProducts } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
-import { Container, display } from "@mui/system";
+import { Container } from "@mui/system";
 import { FaStarHalfAlt, FaRupeeSign, FaStar } from "react-icons/fa";
 import {
   IoIosRemoveCircleOutline,
@@ -16,6 +14,7 @@ import {
 } from "react-icons/io";
 import { toast } from "react-toastify";
 import LinearProgress from "@mui/material/LinearProgress";
+// import { useAppDispatch } from "../services/redux/store";
 
 const MainContainer = styled.div``;
 const Wrapper = styled.div`
@@ -93,23 +92,7 @@ const FilterTitle = styled.span`
   font-size: 20px;
   font-weight: 200;
 `;
-const FilterColor = styled.div`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: ${(props) => props.color};
-  margin: 0 5px;
-  cursor: pointer;
-`;
-const FilterSize = styled.select`
-  flex: 1;
-  padding: 10px;
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-`;
-const FilterSizeOption = styled.option``;
+
 const AddContainer = styled.div`
   display: flex;
   width: 50%;
@@ -209,11 +192,6 @@ const RatingContainer = styled.div`
 const RatingReviewsbar = styled.div`
   flex: 4;
 `;
-const ProgressbarAndlabelContianer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 const Label = styled.div`
   flex: 1;
   margin: 5px 0;
@@ -290,7 +268,7 @@ const SingleProduct = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
-  const dispatch = useDispatch();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -322,7 +300,7 @@ const SingleProduct = () => {
   };
 
   const handleClick = async () => {
-    await dispatch(addProducts({ ...product, quantity }));
+    // await dispatch(addProduct({ ...product, quantity }));
     toast.success("Product added to cart successfully", {
       position: toast.POSITION.BOTTOM_RIGHT,
     });

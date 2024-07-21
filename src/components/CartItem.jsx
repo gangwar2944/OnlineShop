@@ -6,9 +6,8 @@ import {
   IoIosRemoveCircleOutline,
   IoIosAddCircleOutline,
 } from "react-icons/io";
-import { delProducts } from "../redux/cartRedux";
-import { useDispatch } from "react-redux";
-import { FaStarHalfAlt, FaRupeeSign } from "react-icons/fa";
+import {FaRupeeSign } from "react-icons/fa";
+// import { useAppDispatch } from "../services/redux/store";
 
 const Product = styled.div`
   display: flex;
@@ -121,10 +120,10 @@ const RemoveButton = styled.button`
   outline: none;
 `;
 const CartItem = (props) => {
-  const dispatch = useDispatch();
+  // const dispatch = useAppDispatch();
   const product = props.product;
   const delItem = (product) => {
-    dispatch(delProducts(product));
+    // dispatch(delProducts(product));
     // console.log(res.data)
   };
   return (

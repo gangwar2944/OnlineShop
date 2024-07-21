@@ -3,7 +3,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:8000/api/v1/";
 
-const TOKEN =JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser?.token;
+const TOKEN = JSON.parse(localStorage.getItem("User"))?.token;
 // const TOKEN ="sdsdfsdfsfsdf";
 
 const headers = {

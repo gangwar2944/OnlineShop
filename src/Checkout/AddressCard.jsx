@@ -2,8 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import {useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { addAddress, deleteAddress } from "../redux/addressRedux";
+// import { useDispatch } from "react-redux";
 
 const AddressContainer = styled.div`
   width: 95%;
@@ -21,10 +20,10 @@ const AddressCard = (props) => {
   console.log("props",props)
   const data = props.data;
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const redirectOrderSummury = (addId) => {
-    dispatch(addAddress(addId));
+    // dispatch(addAddress(addId));
     navigate(`?step=3`);
   };
 
