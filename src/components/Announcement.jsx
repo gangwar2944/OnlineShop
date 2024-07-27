@@ -1,7 +1,7 @@
 import React from 'react'
-import styled from 'styled-components'
+import {styled,Box} from "@mui/material"
 
-const Container = styled.div`
+const Container = styled(Box)`
    width: 100%;
    background-color: teal;
    color: white;
