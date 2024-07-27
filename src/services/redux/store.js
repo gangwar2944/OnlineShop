@@ -3,6 +3,7 @@ import cartReducer from "./cart/reducer";
 import userReducer from "./login/reducer";
 import addressReducer from "./address/reducer";
 import productReducer from "./product/reducer"
+import orderReducer from "./order/reducer"
 import { useDispatch, useSelector } from "react-redux";
 
 const rootReducer = combineReducers({
@@ -10,6 +11,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   address: addressReducer,
   product:productReducer,
+  order:orderReducer,
 });
 
 export const useAppDispatch = () => useDispatch();

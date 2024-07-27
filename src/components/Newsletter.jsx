@@ -1,65 +1,80 @@
-import React from 'react'
-import styled from 'styled-components'
-import {AiOutlineSend} from "react-icons/ai"
-import { mobile } from '../responsive'
-const Container = styled.div`
-margin-top: 20px;
-    height: 60vh;
-    background-color: #fcf5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    ${mobile({height:"50vh"})}
-`
-const Title = styled.h1`
-    font-size: 50px;
-    margin-bottom:15px ;
-`
-const Discription = styled.div`
-    font-size: 20px;
-    margin-bottom: 20px;
-    font-weight: 300;
-    ${mobile({textAlign:"center"})}
-`
-const InputContainer = styled.div`
-    width: 50%;
-    height: 40px;
-    background-color: #fff;
-    display: flex;
-    justify-content: space-between;
-    border: 1px solid lightgray;
-    ${mobile({width:"80%"})}
-`
-const Input = styled.input`
-    flex: 8;
-    border: none;
-    padding-left: 20px;
-   
-`
-const Button = styled.button`
-    flex: 1;
-    background-color: teal;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    
-`
+import React from 'react';
+import { styled } from '@mui/material/styles';
+import { AiOutlineSend } from "react-icons/ai";
+import { Box, Typography, InputBase, Button } from '@mui/material';
+
+// Styled components using Material-UI's styled utility
+const Container = styled(Box)(({ theme }) => ({
+  marginTop: theme.spacing(2.5),
+  height: '60vh',
+  backgroundColor: theme.palette.background.paper,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  [theme.breakpoints.down('sm')]: {
+    height: '50vh',
+  },
+}));
+
+const Title = styled(Typography)(({ theme }) => ({
+  fontSize: '50px',
+  marginBottom: theme.spacing(1.875),
+}));
+
+const Description = styled(Typography)(({ theme }) => ({
+  fontSize: '20px',
+  marginBottom: theme.spacing(2.5),
+  fontWeight: 300,
+  [theme.breakpoints.down('sm')]: {
+    textAlign: 'center',
+  },
+}));
+
+const InputContainer = styled(Box)(({ theme }) => ({
+  width: '50%',
+  height: '40px',
+  backgroundColor: theme.palette.background.default,
+  display: 'flex',
+  justifyContent: 'space-between',
+  border: '1px solid lightgray',
+  [theme.breakpoints.down('sm')]: {
+    width: '80%',
+  },
+}));
+
+const Input = styled(InputBase)(({ theme }) => ({
+  flex: 8,
+  border: 'none',
+  paddingLeft: theme.spacing(2.5),
+}));
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  flex: 1,
+  backgroundColor: 'teal',
+  color: '#fff',
+  border: 'none',
+  cursor: 'pointer',
+  '&:hover': {
+    backgroundColor: 'darkcyan',
+  },
+}));
+
 const Newsletter = () => {
   return (
-    <>
-       <Container>
-          <Title>Newsletter</Title>
-          <Discription>Get timely update from your favorite product. </Discription>
-          <InputContainer>
-             <Input placeholder='Enter your email'/>
-             <Button>
-                 <AiOutlineSend/>
-             </Button>
-          </InputContainer>
-       </Container>
-    </>
-  )
+    <Container>
+      <Title variant="h1">Newsletter</Title>
+      <Description variant="body1">
+        Get timely updates from your favorite products.
+      </Description>
+      <InputContainer>
+        <Input placeholder='Enter your email' />
+        <StyledButton>
+          <AiOutlineSend />
+        </StyledButton>
+      </InputContainer>
+    </Container>
+  );
 }
 
-export default Newsletter
+export default Newsletter;

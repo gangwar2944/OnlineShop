@@ -10,19 +10,22 @@ import Navbar from "../components/Navbar";
 import DeliveryAddForm from "./DeliveryAddForm";
 import OrderSummary from "./OrderSummary";
 
-const steps = ["Login", "Add Address", "Order sunmmary", "Payment"];
+const steps = ["Login", "Add Address", "Order Summary", "Payment"];
 
 const StepperContainer = styled.div`
-    margin-top: 100px;
-`
+  margin-top: 100px;
+`;
 
 export default function CheckOut() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const location = useLocation();
   const querySearch = new URLSearchParams(location.search);
-  //   console.log(querySearch);
-  const step = querySearch.get("step");
+  const step = parseInt(querySearch.get("step"), 10) || 0; // Ensure it's an integer
+
+  React.useEffect(() => {
+    setActiveStep(step);
+  }, [step]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -34,56 +37,44 @@ export default function CheckOut() {
 
   return (
     <>
-    <Navbar/>
-    <StepperContainer>
-      <Box sx={{ width: "100%" }}>
-        <Stepper activeStep={step}>
-          {steps.map((label, index) => {
-            const stepProps = {};
-            const labelProps = {};
-
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
-        {activeStep === steps.length ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-            {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}> */}
-              {/* <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
+      <Navbar />
+      <StepperContainer>
+        <Box sx={{ width: "100%" }}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step
+                key={label}
+                sx={{
+                  "& .MuiStepConnector-root": {
+                    borderColor: "black", // Custom color for the connector line
+                  },
+                  "& .MuiStepConnector-line": {
+                    borderColor: "black", // Custom color for the line
+                  },
+                }}
               >
-                Back
-              </Button> */}
-              {/* <Box sx={{ flex: "1 1 auto" }} /> */}
-              {/* <Button onClick={handleNext}>
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button> */}
-            {/* </Box> */}
-          </React.Fragment>
-        )}
-      </Box>
-
-      <div>
-       { step == 2 ?<DeliveryAddForm/>:<OrderSummary/>}
-      </div>
-    </StepperContainer>
-    {/* <Footer/> */}
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          {activeStep === steps.length ? (
+            <React.Fragment>
+              <Typography sx={{ mt: 2, mb: 1 }}>
+                All steps completed - you're finished
+              </Typography>
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
+              </Box>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              {/* Conditional rendering based on the step */}
+              {activeStep === 2 ? <DeliveryAddForm /> : <OrderSummary />}
+            </React.Fragment>
+          )}
+        </Box>
+      </StepperContainer>
+      {/* <Footer /> */}
     </>
   );
 }

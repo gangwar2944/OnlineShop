@@ -9,6 +9,12 @@ export const getAllProduct = createAsyncThunk("GET_ALL_PRODUCT", async (cat) => 
   return result;
 });
 
+export const getAllCategory = createAsyncThunk("GET_ALL_CATEGORY", async () => {
+  const  response = await privateRequest.get('/category/getAll');
+  const result = response.data;
+  return result;
+});
+
 export const getProductById = createAsyncThunk(
   "GET_PRODUCT_BY_ID",
   async (id) => {

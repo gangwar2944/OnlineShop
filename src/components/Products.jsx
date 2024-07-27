@@ -5,14 +5,14 @@ import { useAppDispatch, useAppSelector } from "../services/redux/store";
 import { getAllProduct } from "../services/redux/product/action";
 import { Grid } from "@mui/material";
 
-const Container = styled(Grid)`
-  padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-`;
+const Container = styled(Grid)(({ theme }) => ({
+  padding: "20px",
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'flex-start',
+  alignItems: 'center',
+  width: '100%',
+}));
 
 const Products = ({ cat, filters, sort }) => {
   const dispatch = useAppDispatch();

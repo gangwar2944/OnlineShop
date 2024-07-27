@@ -1,120 +1,145 @@
-import React, { useEffect } from "react";
-import {
-  AiOutlineHome,
-  AiOutlineSearch,
-  AiOutlineShoppingCart,
-} from "react-icons/ai";
+import React, { useEffect, useState } from "react";
+import { AiOutlineHome, AiOutlineSearch, AiOutlineShoppingCart } from "react-icons/ai";
 import { FiLogOut, FiLogIn } from "react-icons/fi";
-import "./css/style.css";
-import styled from "styled-components";
-import { mobile, tablate } from "../responsive";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../services/redux/store";
 import { logout } from "../services/redux/login/reducer";
+import { styled } from "@mui/material/styles";
+import { Box, Typography, IconButton } from "@mui/material";
 
-const NavContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: fixed;
-  width: 100%;
-  top: 0%;
-  z-index: 1000;
-`;
-const Navbars = styled.div`
-  width: 100%;
-  height: 60px;
-  background-color: #fff;
-  color: #000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, 0.05);
-  ${mobile({ height: "50px" })}
-`;
-const Search = styled.div`
-  font-size: 25px;
-  width: 50%;
-  display: flex;
-  justify-content: center;
-  position: relative;
-  ${mobile({ fontSize: "18px", display: "none" })};
-  ${tablate({ fontSize: "18px" })};
-`;
-const Input = styled.input`
-  margin: 0 10px;
-  width: 70%;
-  padding: 8px 20px;
-  border-radius: 10px;
-  border: 1px solid rgb(92, 87, 87);
-  outline: none;
-  ${mobile({ margin: "0 5px", padding: "8px" })};
-  ${tablate({ margin: "0 5px", padding: "8px" })};
-`;
-const Logo = styled.div`
-  font-size: 25px;
-  font-weight: 700;
-  text-transform: uppercase;
-  ${mobile({ fontSize: "20px", fontWeigth: "700", marginLeft: "10px" })};
-  ${tablate({ fontSize: "20px", fontWeigth: "700" })};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #000;
-`;
-const Span = styled.span`
-  margin: 0 5px;
-  ${mobile({ marginLeft: "2.5px" })};
-`;
-const ClassIcon = styled.span`
-  position: absolute;
-  top: 25%;
-  right: 17%;
-  /* transition: translateX(-20px); */
-  font-size: 20px;
-`;
-const Links = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const ShopingCart = styled.div`
-  position: relative;
-`;
-const CartIcon = styled.span`
-  margin: 0 20px;
-  text-decoration: none;
-  color: #000;
-  font-size: 20px;
-`;
-const CartItemCount = styled.div`
-  position: absolute;
-  top: -8px;
-  right: 15px;
-  background-color: blue;
-  color: aliceblue;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-`;
-const Signoutbtn = styled.div`
-  margin: 5px 10px;
-  background-color: teal;
-  color: #fff;
-  width: 100px;
-  border-radius: 5px;
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
+// Styled components using MUI's styled function
+const NavContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  position: 'fixed',
+  width: '100%',
+  top: 0,
+  zIndex: 1000,
+}));
+
+const Navbars = styled(Box)(({ theme }) => ({
+  width: '100%',
+  height: '60px',
+  backgroundColor: '#fff',
+  color: '#000',
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  boxShadow: '5px 5px 5px 5px rgba(0, 0, 0, 0.05)',
+  [theme.breakpoints.down('mobile')]: {
+    height: '50px',
+  },
+}));
+
+const Search = styled(Box)(({ theme }) => ({
+  fontSize: '25px',
+  width: '50%',
+  display: 'flex',
+  justifyContent: 'center',
+  position: 'relative',
+  [theme.breakpoints.down('mobile')]: {
+    fontSize: '18px',
+    display: 'none',
+  },
+  [theme.breakpoints.down('tablet')]: {
+    fontSize: '18px',
+  },
+}));
+
+const Input = styled('input')(({ theme }) => ({
+  margin: '0 10px',
+  width: '70%',
+  padding: '8px 20px',
+  borderRadius: '10px',
+  border: '1px solid rgb(92, 87, 87)',
+  outline: 'none',
+  [theme.breakpoints.down('mobile')]: {
+    margin: '0 5px',
+    padding: '8px',
+  },
+  [theme.breakpoints.down('tablet')]: {
+    margin: '0 5px',
+    padding: '8px',
+  },
+}));
+
+const Logo = styled(Box)(({ theme }) => ({
+  fontSize: '25px',
+  fontWeight: 700,
+  textTransform: 'uppercase',
+  [theme.breakpoints.down('mobile')]: {
+    fontSize: '20px',
+    marginLeft: '10px',
+  },
+  [theme.breakpoints.down('tablet')]: {
+    fontSize: '20px',
+  },
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  color: '#000',
+}));
+
+const Span = styled('span')(({ theme }) => ({
+  margin: '0 5px',
+  [theme.breakpoints.down('mobile')]: {
+    marginLeft: '2.5px',
+  },
+}));
+
+const ClassIcon = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '25%',
+  right: '17%',
+  fontSize: '20px',
+}));
+
+const Links = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+}));
+
+const ShopingCart = styled(Box)(({ theme }) => ({
+  position: 'relative',
+}));
+
+const CartIcon = styled(IconButton)(({ theme }) => ({
+  margin: '0 20px',
+  color: '#000',
+  fontSize: '20px',
+}));
+
+const CartItemCount = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '-8px',
+  right: '15px',
+  backgroundColor: 'blue',
+  color: 'aliceblue',
+  width: '15px',
+  height: '15px',
+  borderRadius: '50%',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  fontSize: '14px',
+}));
+
+const Signoutbtn = styled(Box)(({ theme }) => ({
+  margin: '5px 10px',
+  backgroundColor: 'teal',
+  color: '#fff',
+  width: '100px',
+  borderRadius: '5px',
+  padding: '5px',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  cursor: 'pointer',
+}));
+
 const Navbar = () => {
   const [cartData, setCartData] = useState({
     userId: {},
@@ -123,11 +148,9 @@ const Navbar = () => {
     total: 0,
   });
   const dispatch = useAppDispatch();
-  let quantity = useSelector((state) => state.cart.cartDataState.quantity);
+  const quantity = useSelector((state) => state.cart.cartDataState.quantity);
   const cart = useSelector((state) => state.cart);
-  // console.log(cart.products)
   const user = useAppSelector((state) => state.user.userDataState.userData);
-  // const cuser=useSelector(state=>state.user)
 
   useEffect(() => {
     setCartData({
@@ -136,61 +159,55 @@ const Navbar = () => {
       quantity: cart.quantity,
       total: cart.total,
     });
-  }, []);
+  }, [user, cart]);
 
   const userLogout = () => {
-    // dispatch(deleteAddress());
     dispatch(logout());
   };
 
   return (
-    <>
-      <NavContainer>
-        <Navbars>
-          <Logo>
-            <Span>
-              <Link to="/">
-                <AiOutlineHome style={{ color: "#000", marginTop: "5px" }} />
-              </Link>{" "}
-            </Span>
-            <Span>v-shop</Span>
-          </Logo>
-          <Search>
-            <Input type="text" placeholder="search..." />
-            <ClassIcon>
-              <AiOutlineSearch />
-            </ClassIcon>
-          </Search>
-          <Links>
-            {Object.keys(user).length>0 ? (
-              <Signoutbtn onClickCapture={userLogout}>
-                Sign out <FiLogOut style={{ marginLeft: "5px" }} />{" "}
-              </Signoutbtn>
-            ) : (
-              <>
-                {" "}
-                <Link to="/register">
-                  <Signoutbtn>Register</Signoutbtn>
-                </Link>
-                <Link to="/login">
-                  <Signoutbtn>
-                    Login <FiLogIn />
-                  </Signoutbtn>
-                </Link>
-              </>
-            )}
-            <ShopingCart>
-              <CartIcon>
-                <Link to="/cart">
-                  <AiOutlineShoppingCart />
-                </Link>
-              </CartIcon>
-              {quantity < 1 ? " " : <CartItemCount>{quantity}</CartItemCount>}
-            </ShopingCart>
-          </Links>
-        </Navbars>
-      </NavContainer>
-    </>
+    <NavContainer>
+      <Navbars>
+        <Logo>
+          <Span>
+            <Link to="/">
+              <AiOutlineHome style={{ color: "#000", marginTop: "5px" }} />
+            </Link>
+          </Span>
+          <Span>v-shop</Span>
+        </Logo>
+        <Search>
+          <Input type="text" placeholder="search..." />
+          <ClassIcon>
+            <AiOutlineSearch />
+          </ClassIcon>
+        </Search>
+        <Links>
+          {Object.keys(user).length > 0 ? (
+            <Signoutbtn onClick={userLogout}>
+              Sign out <FiLogOut style={{ marginLeft: "5px" }} />
+            </Signoutbtn>
+          ) : (
+            <>
+              <Link to="/register">
+                <Signoutbtn>Register</Signoutbtn>
+              </Link>
+              <Link to="/login">
+                <Signoutbtn>
+                  Login <FiLogIn />
+                </Signoutbtn>
+              </Link>
+            </>
+          )}
+          <ShopingCart>
+            <CartIcon component={Link} to="/cart">
+              <AiOutlineShoppingCart />
+            </CartIcon>
+            {quantity > 0 && <CartItemCount>{quantity}</CartItemCount>}
+          </ShopingCart>
+        </Links>
+      </Navbars>
+    </NavContainer>
   );
 };
 

@@ -1,115 +1,130 @@
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
+import { userRequest } from "../requestMethods";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
-import { mobile } from "../responsive";
-import { useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { privateRequest, userRequest } from "../requestMethods";
-import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../components/CartItem";
+import { styled, useTheme } from "@mui/material/styles";
+import { Button, Typography, Box } from "@mui/material";
 
-// const KEY = process.env.REACT_APP_STRIPE;
+const Wrapper = styled('div')(({ theme }) => ({
+  marginTop: theme.spacing(7.5),
+}));
 
-const Container = styled.div``;
-const Wrapper = styled.div`
-  margin-top: 60px;
-`;
-const Top = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  ${mobile({ justifyContent: "space-around" })}
-`;
-const Title = styled.h1`
-  text-align: center;
-  padding: 20px;
-`;
+const Top = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: "20px",
+  [theme.breakpoints.down('sm')]: {
+    justifyContent: 'space-around',
+  },
+}));
 
-const TopButton = styled.button`
-  padding: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  border: ${(props) => props.type === "filled" && "none"};
-  background-color: ${(props) =>
-    props.type === "filled" ? "black" : "transparent"};
-  color: ${(props) => props.type === "filled" && "white"};
-`;
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-const TopText = styled.span`
-  text-decoration: underline;
-  margin: 0 10px;
-  cursor: pointer;
-`;
-const Buttom = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 70%;
-  margin: auto;
-  ${mobile({ flexDirection: "column" })}
-`;
-const Info = styled.div`
-  flex: 3;
-  ${mobile({ marginBottom: "10px" })}
-`;
-const Image = styled.img`
-  width: 150px;
-  max-height: 160px;
-  flex: 1;
-`;
-const Button = styled.button`
-  width: 20%;
-  padding: 10px;
-  background-color: teal;
-  color: #fff;
-  border: none;
-  text-transform: uppercase;
-`;
-const EmptyContainer = styled.div`
-  width: 100vw;
-  height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const Empty = styled.div`
-  padding: 20px;
-`;
-const Heading = styled.h3`
-  margin: 20px;
-`;
-const Small = styled.small`
-  margin: 20px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-const FooterContainer = styled.div`
-  text-align: right;
-`;
+const Title = styled(Typography)(({ theme }) => ({
+  textAlign: 'center',
+  padding: "20px",
+}));
+
+const TopButton = styled(Button)(({ theme, type }) => ({
+  padding: theme.spacing(1.25),
+  fontWeight: 600,
+  cursor: 'pointer',
+  border: type === "filled" ? 'none' : 'initial',
+  backgroundColor: type === "filled" ? 'black' : 'transparent',
+  color: type === "filled" ? 'white' : 'initial',
+}));
+
+const TopTexts = styled('div')(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    display: 'none',
+  },
+}));
+
+const TopText = styled(Typography)(({ theme }) => ({
+  textDecoration: 'underline',
+  margin: theme.spacing(0, 1.25),
+  cursor: 'pointer',
+}));
+
+const Bottom = styled('div')(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  width: '70%',
+  margin: 'auto',
+  [theme.breakpoints.down('sm')]: {
+    flexDirection: 'column',
+  },
+}));
+
+const Info = styled('div')(({ theme }) => ({
+  flex: 3,
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.spacing(1.25),
+  },
+}));
+
+const Image = styled('img')({
+  width: 150,
+  maxHeight: 160,
+  flex: 1,
+});
+
+const StyledButton = styled(Button)(({ theme }) => ({
+  flex: 1,
+  border: "1px solid teal",
+  color: "teal",
+  backgroundColor: "transparent",
+  padding: "10px",
+  borderRadius: "4px",
+  margin: "0 5px",
+  backgroundColor: "teal",
+  color: "#fff",
+  cursor: "pointer",
+  '&:hover': {
+    backgroundColor: "#155d5d",
+    border: "none",
+    color: "#fff",
+  },
+}));
+
+const EmptyContainer = styled(Box)({
+  width: '100vw',
+  height: '80vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+});
+
+const Empty = styled(Box)(({ theme }) => ({
+  padding: "20px",
+}));
+
+const Heading = styled(Typography)(({ theme }) => ({
+  margin: theme.spacing(2.5),
+}));
+
+const Small = styled(Typography)(({ theme }) => ({
+  margin: theme.spacing(2.5, 0),
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+}));
+
+const FooterContainer = styled(Box)({
+  textAlign: 'right',
+});
+
 const Cart = () => {
-  const [cartData, setCartData] = useState({
-    id: -1,
-    products: [{}],
-    quantity: 0,
-    total: 0,
-    userId: null,
-  });
-  // const dispatch = useDispatch();
+  const theme = useTheme();
   const cart = useSelector((state) => state.cart.cartDataState.carts);
-  const user = useSelector((state) => state.user.currentUser);
-
   const [stripeToken, setStripeToken] = useState(null);
   const navigate = useNavigate();
-  // const onToken = (token) => {
-  //     setStripeToken(token);
-  // }
-  console.log("cart reducer",cart);
+
   useEffect(() => {
-    const makeRequest = async (req, res) => {
+    const makeRequest = async () => {
       try {
         const res = await userRequest.post(
           "http://localhost:5000/api/checkout/payment",
@@ -121,80 +136,51 @@ const Cart = () => {
         navigate("/success", { data: res.data });
       } catch {}
     };
-    stripeToken && makeRequest();
+    if (stripeToken) makeRequest();
   }, [stripeToken, cart.total, navigate]);
-
-  useEffect(() => {
-    const getCartData = async () => {
-      try {
-        let res = await privateRequest.get(`/cart/getAllCart/${user.id}`);
-        setCartData(res.data.data);
-        // console.log("hii vishal")
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    console.log("cartData", cartData);
-    if (cartData.quantity > 0) {
-      cartData.forEach((itemData) => {
-        // let quantity = cartData.quantity;
-        // dispatch(addProducts({...itemData,quantity}));
-      });
-    }
-    //   dispatch(addProducts({...cartData.products}))
-    getCartData();
-  }, []);
 
   const redirectAddressPage = () => {
     navigate("checkout?step=2");
   };
 
   return (
-    <>
-      <Container>
-        <Navbar />
-        {cart.length > 0 ? (
-          <Wrapper>
-            <Title>Your Bag</Title>
-            <Top>
-              <TopButton>CONTINUE SHOPPING</TopButton>
-              <TopTexts>
-                <TopText>Shopping Bag(2)</TopText>
-                <TopText>Your WishList(0)</TopText>
-              </TopTexts>
-              {/* <TopButton type='filled'>CHECKOUT</TopButton> */}
-            </Top>
-            <Buttom>
-              <Info>
-                {cart?.map((product) => (
-                  <CartItem product={product} />
-                ))}
-                <FooterContainer>
-                  {" "}
-                  <Button onClick={redirectAddressPage}>Place Order</Button>
-                </FooterContainer>
-              </Info>
-            </Buttom>
-          </Wrapper>
-        ) : (
-          <>
-            <EmptyContainer>
-              <Empty>
-                <Image src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" />
-                <Heading>Your cart is Empty</Heading>
-                <Small>Add items to it now.</Small>
-                <Link to="/">
-                  {" "}
-                  <Button>Start Shopping</Button>
-                </Link>
-              </Empty>
-            </EmptyContainer>
-          </>
-        )}
-        <Footer />
-      </Container>
-    </>
+    <Box>
+      <Navbar />
+      {cart.length > 0 ? (
+        <Wrapper>
+          <Title variant="h5">Your Bag</Title>
+          <Top>
+            <TopButton>CONTINUE SHOPPING</TopButton>
+            <TopTexts>
+              <TopText>Shopping Bag(2)</TopText>
+              <TopText>Your WishList(0)</TopText>
+            </TopTexts>
+          </Top>
+          <Bottom>
+            <Info>
+              {cart.map((product) => (
+                <CartItem key={product.id} product={product} />
+              ))}
+              <FooterContainer>
+                <StyledButton onClick={redirectAddressPage}>Place Order</StyledButton>
+              </FooterContainer>
+            </Info>
+          </Bottom>
+        </Wrapper>
+      ) : (
+        <EmptyContainer>
+          <Empty>
+            <Image src="https://rukminim1.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90" />
+            <Heading variant="h3">Your cart is Empty</Heading>
+            <Small>Add items to it now.</Small>
+            <Link to="/">
+              <StyledButton>Start Shopping</StyledButton>
+            </Link>
+          </Empty>
+        </EmptyContainer>
+      )}
+      <Footer />
+    </Box>
   );
 };
 

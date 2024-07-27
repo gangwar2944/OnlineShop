@@ -1,22 +1,24 @@
 import React from "react";
-import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../services/redux/store";
 import { currentAddress } from "../services/redux/address/reducer";
+import { styled,Box } from "@mui/material";
 // import { useDispatch } from "react-redux";
 
-const AddressContainer = styled.div`
-  width: 95%;
-  padding: 20px;
-  background-color: #fff;
-  margin-bottom: 10px;
-`;
-const H3 = styled.h3`
+const AddressContainer = styled(Box)(({ theme }) => ({
+  width: '95%',
+  padding: '20px',
+  backgroundColor: '#fff',
+  marginBottom: '10px',
+  border: `1px solid ${theme.palette.grey[100]}`,
+}));
+
+const H3 = styled('h3')`
   padding: 0 0 5px 0;
 `;
-const Para = styled.p`
-  padding: 8px 0 8px 0;
+const Para = styled("p")`
+  padding:0;
 `;
 const AddressCard = (props) => {
   const data = props.data;

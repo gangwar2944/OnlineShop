@@ -2,26 +2,33 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import styled from "styled-components";
 import Button from "@mui/material/Button";
-import './DeliveryAddForm.css'
+import "./DeliveryAddForm.css";
 import AddressCard from "./AddressCard";
 import { useNavigate } from "react-router-dom";
-import { getAllAddresses, saveOrUpdateAddress } from "../jsFiles/addressService";
+import {
+  getAllAddresses,
+  saveOrUpdateAddress,
+} from "../services/redux/address/action";
+import { useAppDispatch, useAppSelector } from "../services/redux/store";
+import { styled,Grid } from "@mui/material";
 
-const InputContainer = styled.div`
-  width: 100% !important;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-const FilledAddress = styled.div`
-    width: 50%;
-    overflow-y: scroll;
-    height: 300px;
-`
-
+const FilledAddress = styled(Box)(({ theme }) => ({
+  width: "50%",
+  overflowY: "scroll",
+  height: "300px",
+  backgroundColor: theme.palette.background.default,
+  padding: "20px",
+}));
 const DeliveryAddForm = (props) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const addressList = useAppSelector(
+    (state) => state.address.addressDataState.addresses
+  );
+  const userId = JSON.parse(localStorage.getItem("user")).id;
+  console.log("addressList", addressList);
   const [address, setAddress] = useState({
     id: 0,
     firstname: "",
@@ -32,22 +39,33 @@ const DeliveryAddForm = (props) => {
     area: "",
     pinCode: "",
     phoneNumber: "",
-    userId:null
+    userId: userId,
   });
-    const navigate = useNavigate();
-//   console.log("props val", props);
+
   useEffect(() => {
     if (!props.product) {
       setAddress({});
     } else {
       setAddress(props.product);
     }
-  }, []);
+  }, [props.product]);
+
+  useEffect(() => {
+    dispatch(getAllAddresses(userId));
+  }, [dispatch, userId]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setAddress({
+      ...address,
+      [name]: value,
+    });
+  };
 
   const cancelChanges = (e) => {
     e.preventDefault();
     if (address.id > 0) {
-      alert("you are allow to do cancel all changes");
+      alert("You are allowed to cancel all changes");
     } else {
       setAddress({
         id: 0,
@@ -63,181 +81,160 @@ const DeliveryAddForm = (props) => {
     }
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-
-    setAddress({
-      ...address, // Keep the existing form data
-      [name]: value, // Update the specific field by its name
-    });
-  };
-
-  const userId = JSON.parse(localStorage.getItem("user")).id
-  console.log("user data",userId);
-
-  const [addressList, setAddressList] = useState([]);
-//   console.log(userId);
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setAddress({...address,userId:userId});
-    saveOrUpdateAddress(address)
-      .then((response) => {
-        console.log('Product saved:', response);
+    dispatch(saveOrUpdateAddress({ ...address, userId }))
+      .then(() => {
         toast.success("Address added successfully!", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-
         setAddress({
-            firstname: "",
-            lastname: "",
-            city: "",
-            country: "",
-            landmark: "",
-            area: "",
-            pinCode: "",
-            phoneNumber: "",
-          });
-              navigate("?step=3");
+          firstname: "",
+          lastname: "",
+          city: "",
+          country: "",
+          landmark: "",
+          area: "",
+          pinCode: "",
+          phoneNumber: "",
+        });
+        navigate("?step=3");
       })
       .catch((error) => {
-        console.log(error)
         toast.error("Something went wrong.", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
       });
   };
-
-  useEffect(() => {
-    getAllAddresses(userId)
-      .then((response) => {
-        setAddressList(response.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-
   return (
     <div className="container">
       <div className="formContainer">
         <FilledAddress>
-        {
-        addressList.map((item, index) => (
-            <AddressCard data={item} key={index}/>
-            ))
-        }
+          {addressList.map((item, index) => (
+            <AddressCard data={item} key={index} />
+          ))}
         </FilledAddress>
         <Box
           component="form"
-          sx={{
-            "& > :not(style)": { m: 1, width: "25ch" },
-          }}
+          width={"100%"}
           noValidate
           autoComplete="off"
           className="formdata"
         >
-          <InputContainer>
-            <TextField
-              id="firstname"
-              label="firstname"
-              variant="standard"
-              className="inputBox"
-              value={address.firstname}
-              name="firstname"
-              onChange={handleInputChange}
-            />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                id="firstname"
+                label="firstname"
+                variant="standard"
+                className="inputBox"
+                value={address.firstname}
+                name="firstname"
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
 
-            <TextField
-              id="lastname"
-              label="lastname"
-              variant="standard"
-              className="inputBox"
-              value={address.lastname}
-              name="lastname"
-              onChange={handleInputChange}
-            />
-          </InputContainer>
+            <Grid item xs={6}>
+              <TextField
+                id="lastname"
+                label="lastname"
+                variant="standard"
+                className="inputBox"
+                value={address.lastname}
+                name="lastname"
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="area"
+                label="area"
+                multiline
+                variant="standard"
+                className="inputBox"
+                value={address.area}
+                name="area"
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="landmark"
+                label="landmark"
+                multiline
+                maxRows={4}
+                variant="standard"
+                className="inputBox"
+                value={address.landmark}
+                name="landmark"
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="city"
+                label="city"
+                variant="standard"
+                className="inputBox"
+                value={address.city}
+                name="city"
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="country"
+                label="country"
+                variant="standard"
+                className="inputBox"
+                value={address.country}
+                name="country"
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="phoneNumber"
+                label="phoneNumber"
+                type="number"
+                className="inputBox"
+                variant="standard"
+                autoComplete="off"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="phoneNumber"
+                value={address.phoneNumber}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                id="pinCode"
+                label="pinCode"
+                type="number"
+                autoComplete="off"
+                className="inputBox"
+                variant="standard"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                name="pinCode"
+                value={address.pinCode}
+                onChange={handleInputChange}
+                fullWidth
+              />
+            </Grid>
+          </Grid>
 
-          <InputContainer>
-          <TextField
-              id="area"
-              label="area"
-              multiline
-              variant="standard"
-              className="inputBox"
-              value={address.area}
-              name="area"
-              onChange={handleInputChange}
-            />
-            <TextField
-              id="landmark"
-              label="landmark"
-              multiline
-              maxRows={4}
-              variant="standard"
-              className="inputBox"
-              value={address.landmark}
-              name="landmark"
-              onChange={handleInputChange}
-            />
-          
-          </InputContainer>
-
-          <InputContainer>
-            <TextField
-              id="city"
-              label="city"
-              variant="standard"
-              className="inputBox"
-              value={address.city}
-              name="city"
-              onChange={handleInputChange}
-            />
-            <TextField
-              id="country"
-              label="country"
-              variant="standard"
-              className="inputBox"
-              value={address.country}
-              name="country"
-              onChange={handleInputChange}
-            />
-          </InputContainer>
-
-          <InputContainer>
-            <TextField
-              id="phoneNumber"
-              label="phoneNumber"
-              type="number"
-              className="inputBox"
-              variant="standard"
-              autoComplete="off"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              name="phoneNumber"
-              value={address.phoneNumber}
-              onChange={handleInputChange}
-            />
-            <TextField
-              id="pinCode"
-              label="pinCode"
-              type="number"
-              autoComplete="off"
-              className="inputBox"
-              variant="standard"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              name="pinCode"
-              value={address.pinCode}
-              onChange={handleInputChange}
-            />
-          </InputContainer>
-
-          <InputContainer>
+          <Grid xs={12} mt={2}>
             <div className="buttons">
               <Button type="submit" onClick={handleSubmit} variant="contained">
                 Delivered Here
@@ -246,7 +243,7 @@ const DeliveryAddForm = (props) => {
                 Reset Address
               </Button>
             </div>
-          </InputContainer>
+          </Grid>
         </Box>
       </div>
     </div>

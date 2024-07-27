@@ -5,32 +5,29 @@ import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
 import CartItem from "../components/CartItem";
 import Summary from "../components/Summary";
+import { Grid } from "@mui/material";
 
 const MainContainer = styled.div`
-    display: flex;
-    padding: 20px;
-    align-items: flex-start;
-`
+  width: "100%";
+  padding: 20px;
+`;
 const AddressContainer = styled.div`
-  pointer-events: none;
-  flex: 1;
-  /* margin: auto; */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 `;
 const CartContainer = styled.div`
-  display:flex;
-  flex: 3;
+  display: flex;
   overflow-y: auto; /* Enable vertical scrolling */
   /* Set a max height to limit the scrolling area */
   max-height: calc(100vh - 180px);
 `;
 const SummrayContainer = styled.div`
-    flex: 1;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-`
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+`;
 const OrderSummary = () => {
   const [address, setAddress] = useState({});
-  const reduxAddress = useSelector((state) => state.address.addressDataState.currentAddress);
+  const reduxAddress = useSelector(
+    (state) => state.address.addressDataState.currentAddress
+  );
   console.log("add", reduxAddress);
 
   const cart = useSelector((state) => state.cart.cartDataState.carts);
@@ -40,19 +37,27 @@ const OrderSummary = () => {
 
   return (
     <MainContainer>
-      <AddressContainer>
-        <AddressCard data={address} />
-      </AddressContainer>
-      <CartContainer>
-        <Container styled={{flex:"2"}}>
-          {cart?.map((product) => (
-            <CartItem product={product}/>
-          ))}
-        </Container>
-      </CartContainer>
-       <SummrayContainer styled={{flex:"1"}}>
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <AddressContainer>
+            <AddressCard data={address} />
+          </AddressContainer>
+        </Grid>
+        <Grid item xs={6}>
+          <CartContainer>
+            <Container styled={{ flex: "2" }}>
+              {cart?.map((product) => (
+                <CartItem product={product} />
+              ))}
+            </Container>
+          </CartContainer>
+        </Grid>
+        <Grid item xs={3}>
+          <SummrayContainer styled={{ flex: "1" }}>
             <Summary cart={cart} />
-        </SummrayContainer>
+          </SummrayContainer>
+        </Grid>
+      </Grid>
     </MainContainer>
   );
 };

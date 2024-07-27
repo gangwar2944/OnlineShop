@@ -44,9 +44,8 @@ export const defaultTheme = createTheme({
       main: "#ffffff",
     },
     background: {
-      default: "#ffffff",
-      // paper:"#ffffff",
-      paper: "#f5f5f7",
+      default: "#f5f5f7",
+      paper: "#ffffff",
     },
     border: {
       main: "#dee2e6", // using this color to give border of dataTable and other places.

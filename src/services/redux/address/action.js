@@ -6,7 +6,7 @@ export const getAllAddresses =createAsyncThunk(
     async (userId) => {
   try {
     const response = await privateRequest.get(`address/getAllAddress?userid=${userId}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     // Handle the error here (e.g., log it or throw a custom error)
     console.log(error);
