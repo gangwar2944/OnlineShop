@@ -72,7 +72,8 @@ const DeliveryAddForm = (props) => {
     });
   };
 
-  const userId = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.id;
+  const userId = JSON.parse(localStorage.getItem("user")).id
+  console.log("user data",userId);
 
   const [addressList, setAddressList] = useState([]);
 //   console.log(userId);

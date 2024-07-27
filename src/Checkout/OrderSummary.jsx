@@ -30,10 +30,10 @@ const SummrayContainer = styled.div`
 `
 const OrderSummary = () => {
   const [address, setAddress] = useState({});
-  const reduxAddress = useSelector((state) => state.address).currentAddress;
+  const reduxAddress = useSelector((state) => state.address.addressDataState.currentAddress);
   console.log("add", reduxAddress);
 
-  const cart = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart.cartDataState.carts);
   useEffect(() => {
     setAddress(reduxAddress);
   }, []);
@@ -45,7 +45,7 @@ const OrderSummary = () => {
       </AddressContainer>
       <CartContainer>
         <Container styled={{flex:"2"}}>
-          {cart.products?.map((product) => (
+          {cart?.map((product) => (
             <CartItem product={product}/>
           ))}
         </Container>

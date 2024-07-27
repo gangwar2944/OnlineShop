@@ -14,6 +14,8 @@ import {
 } from "react-icons/io";
 import { toast } from "react-toastify";
 import LinearProgress from "@mui/material/LinearProgress";
+import { useAppDispatch } from "../services/redux/store";
+import { addToCart } from "../services/redux/cart/reducer";
 // import { useAppDispatch } from "../services/redux/store";
 
 const MainContainer = styled.div``;
@@ -264,27 +266,19 @@ const SingleProduct = () => {
     },
   ];
 
-  const id = location.pathname.split("/")[2];
+  console.log("selected Product",location.state);
   const [selectedItem, setSelectedItem] = useState(null);
   const [product, setProduct] = useState({});
   const [quantity, setQuantity] = useState(1);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    const getProduct = async () => {
-      try {
-        const res = await privateRequest.get(`/product/getProduct/${id}`);
-        setProduct(res.data.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getProduct();
-  }, [id]);
+    setProduct(location.state.product)
+  }, [location.state.product]);
 
   const handleQuantity = (type) => {
     if (type === "incre") {
@@ -300,7 +294,7 @@ const SingleProduct = () => {
   };
 
   const handleClick = async () => {
-    // await dispatch(addProduct({ ...product, quantity }));
+    await dispatch(addToCart({ ...product, quantity }));
     toast.success("Product added to cart successfully", {
       position: toast.POSITION.BOTTOM_RIGHT,
     });

@@ -19,7 +19,7 @@ const Product = styled.div`
   margin: auto;
   height: 200px;
   margin-bottom: 20px;
-  background-color: #f2f2f2;
+  background-color: #fff;
   ${mobile({ flexDirection: "column", margin: "10px" })}
 `;
 const ProductDetail = styled.div`
@@ -122,6 +122,7 @@ const RemoveButton = styled.button`
 const CartItem = (props) => {
   // const dispatch = useAppDispatch();
   const product = props.product;
+  console.log("product",product);
   const delItem = (product) => {
     // dispatch(delProducts(product));
     // console.log(res.data)

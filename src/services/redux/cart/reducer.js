@@ -5,7 +5,7 @@ import { STATUS } from "../../general/constant";
 const initialState = {
   cartDataState: {
     carts: [],
-    cart: null,
+    quantity: 0,
     status: "",
   },
 };
@@ -13,7 +13,12 @@ const initialState = {
 export const cartSlice = createSlice({
   name: "Cart",
   initialState,
-  reducers: {},
+  reducers: {
+    addToCart(state,action){
+        state.cartDataState.carts.push(action.payload);
+        state.cartDataState.quantity = state.cartDataState.carts.length;
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAllCarts.pending, (state) => {
@@ -72,5 +77,7 @@ export const cartSlice = createSlice({
       });
   },
 });
+
+export const {addToCart} = cartSlice.actions;
 
 export default cartSlice.reducer;

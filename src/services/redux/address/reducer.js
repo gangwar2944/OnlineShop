@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice} from "@reduxjs/toolkit";
 import { getAllAddresses, getAddressById, saveOrUpdateAddress, deleteAddress } from "./action";
 import { STATUS } from "../../general/constant";
 
 const initialState = {
   addressDataState: {
     addresses: [],
-    address: null,
+    currentAddress: null,
     status: "",
   },
 };
@@ -14,8 +14,8 @@ export const addressSlice = createSlice({
   name: "Address",
   initialState,
   reducers: {
-    addAddress:(state,action)=>{
-
+    currentAddress:(state,action)=>{
+        state.addressDataState.currentAddress = action.payload;
     }
   },
   extraReducers: (builder) => {
@@ -72,5 +72,5 @@ export const addressSlice = createSlice({
       });
   },
 });
-export const {updatedAddress} = addressSlice.actions;
+export const {currentAddress} = addressSlice.actions;
 export default addressSlice.reducer;

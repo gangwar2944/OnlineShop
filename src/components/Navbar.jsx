@@ -123,7 +123,7 @@ const Navbar = () => {
     total: 0,
   });
   const dispatch = useAppDispatch();
-  let quantity = useSelector((state) => state.cart.quantity);
+  let quantity = useSelector((state) => state.cart.cartDataState.quantity);
   const cart = useSelector((state) => state.cart);
   // console.log(cart.products)
   const user = useAppSelector((state) => state.user.userDataState.userData);
