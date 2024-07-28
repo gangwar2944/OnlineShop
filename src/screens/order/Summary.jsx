@@ -48,7 +48,7 @@ const Summury = (props) => {
 
   return (
     <MainContainer>
-      <Container>
+      <Container sx={{background:(theme)=>theme.palette.background.default}}>
         <SummaryTitle variant="h5">ORDER SUMMARY</SummaryTitle>
         <SummaryItem>
           <SummaryItemText>SubTotal</SummaryItemText>
