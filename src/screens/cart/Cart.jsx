@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { userRequest } from "../requestMethods";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import CartItem from "../components/CartItem";
+import { userRequest } from "../../requestMethods";
+import Footer from "../../commonComponents/Footer";
+import Navbar from "../../commonComponents/Navbar";
+import CartItem from "./CartItem";
 import { styled, useTheme } from "@mui/material/styles";
 import { Button, Typography, Box } from "@mui/material";
 

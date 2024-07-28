@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
-import CategoryItem from './CategoryItem';
 import { Box } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../services/redux/store';
-import { getAllCategory } from '../services/redux/product/action';
+import { useAppDispatch, useAppSelector } from '../../services/redux/store';
+import { getAllCategory } from '../../services/redux/product/action';
+import CategoryItem from "./CategoryItem"
+
 
 // Use theme.breakpoints.down('sm') for mobile responsiveness
 const Container = styled(Box)(({ theme }) => ({

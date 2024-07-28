@@ -1,8 +1,8 @@
 import React from "react";
 import { styled } from "@mui/system";
 import { Container } from "@mui/material";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../commonComponents/Navbar";
+import Footer from "../../commonComponents/Footer";
 import { FaStarHalfAlt, FaRupeeSign } from "react-icons/fa";
 
 const MainContainer = styled('div')(({ theme }) => ({

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import AddressCard from "./AddressCard";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { Container } from "@mui/system";
-import CartItem from "../components/CartItem";
-import Summary from "../components/Summary";
 import { Grid } from "@mui/material";
+import AddressCard from "../address/AddressCard";
+import Summary from "./Summary"
+import CartItem from "../cart/CartItem"
 
 const MainContainer = styled.div`
   width: "100%";

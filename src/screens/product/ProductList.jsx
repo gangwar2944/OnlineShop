@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, Select, MenuItem, TextField } from "@mui/material";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
-import Products from "../components/Products";
+import Footer from "../../commonComponents/Footer";
+import Navbar from "../../commonComponents/Navbar";
+import Newsletter from "../../commonComponents/Newsletter";
+import Products from "./Products";
 
 const Container = styled(Box)({});
 const Title = styled(Typography)(({ theme }) => ({

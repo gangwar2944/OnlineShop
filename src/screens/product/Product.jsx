@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineShoppingCart, AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
 import { Box, Grid, styled, Typography } from "@mui/material";
-import { imageUrl } from "../requestMethods";
+import { imageUrl } from "../../requestMethods";
 
 const Info = styled(Box)(({ theme }) => ({
   opacity: 0,

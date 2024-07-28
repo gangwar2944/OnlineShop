@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useAppDispatch } from "../services/redux/store";
-import { addToCart } from "../services/redux/cart/reducer";
+import { useAppDispatch } from "../../services/redux/store";
+import { addToCart } from "../../services/redux/cart/reducer";
 import { toast } from "react-toastify";
 import { Container, Box, Typography, Button, styled, LinearProgress } from "@mui/material";
 import { FaStarHalfAlt, FaRupeeSign, FaStar } from "react-icons/fa";
 import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io";
-import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
-import Newsletter from "../components/Newsletter";
-import { imageUrl } from "../requestMethods";
-import { mobile } from "../responsive";
+import Footer from "../../commonComponents/Footer";
+import Navbar from "../../commonComponents/Navbar";
+import Newsletter from "../../commonComponents/Newsletter";
+import { imageUrl } from "../../requestMethods";
+import { mobile } from "../../responsive";
 
 const MainContainer = styled(Box)``;
 

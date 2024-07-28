@@ -1,14 +1,10 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Typography from "@mui/material/Typography";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
-import Navbar from "../components/Navbar";
-import DeliveryAddForm from "./DeliveryAddForm";
-import OrderSummary from "./OrderSummary";
+import Navbar from "../../commonComponents/Navbar";
+import { Box, Step, StepLabel, Stepper, Typography } from "@mui/material";
+import OrderSummary from "../order/OrderSummary"
+import DeliveryAddForm from "./DeliveryAddForm"
 
 const steps = ["Login", "Add Address", "Order Summary", "Payment"];
 

@@ -1,24 +1,24 @@
 import "./App.css";
-import Cart from "./pages/Cart";
-import Login from "./pages/Login";
-import ProductList from "./pages/ProductList";
-import Register from "./pages/Register";
-import SingleProduct from "./pages/SingleProduct";
+import Cart from "./screens/cart/Cart";
+import Login from "./screens/login/Login";
+import ProductList from "./screens/product/ProductList";
+import Register from "./screens/login/Register";
+import SingleProduct from "./screens/product/SingleProduct";
 import { Routes, Route, Navigate } from "react-router-dom";
-import Success from "./pages/Success";
+import Success from "./commonComponents/Success";
 import { useSelector } from "react-redux";
-import ErrorPage from "./pages/ErrorPage";
-import CheckOut from "./Checkout/CheckOut";
+import ErrorPage from "./commonComponents/ErrorPage";
+import CheckOut from "./screens/address/CheckOut";
 import "react-toastify/dist/ReactToastify.css";
-import Order from "./pages/Order";
-import OrderDetailPage from "./pages/OrderDetailPage";
-import LoaderIcon from "./components/LoaderIcon";
+import Order from "./screens/order/Order";
+import OrderDetailPage from "./screens/order/OrderDetailPage";
+import LoaderIcon from "./commonComponents/LoaderIcon";
 import { Suspense, lazy } from "react";
 import { ThemeProvider } from "@mui/material";
 import { defaultTheme } from "./services/redux/theme/theme";
 
 function Router() {
-  const Home = lazy(() => import("./pages/Home"));
+  const Home = lazy(() => import("./screens/Home"));
   const user = useSelector((state) => state.user.currentUser);
 
   return (

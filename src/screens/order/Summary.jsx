@@ -38,9 +38,10 @@ const CheckoutButton = styled(MuiButton)({
   },
 });
 
-const MainContainer = styled(Box)({
-  // padding: theme.spacing(1.25), // If you need padding, uncomment and adjust
-});
+const MainContainer = styled(Box)(({theme})=>({
+  padding: "15px", 
+  background:theme.palette.background.default
+}));
 
 const Summury = (props) => {
   const { cart } = props;

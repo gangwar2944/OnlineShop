@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Product from "./Product";
-import { useAppDispatch, useAppSelector } from "../services/redux/store";
-import { getAllProduct } from "../services/redux/product/action";
+import { useAppDispatch, useAppSelector } from "../../services/redux/store";
 import { Grid } from "@mui/material";
+import { getAllProduct } from "../../services/redux/product/action";
 
 const Container = styled(Grid)(({ theme }) => ({
   padding: "20px",

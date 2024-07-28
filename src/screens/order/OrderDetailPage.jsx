@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { Container, Box, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import Navbar from "../../commonComponents/Navbar";
+import Footer from "../../commonComponents/Footer";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import { FaStarHalfAlt, FaRupeeSign } from "react-icons/fa";
-import AddressCard from "../Checkout/AddressCard";
+import AddressCard from "../address/AddressCard";
 
 const MainContainer = styled('div')(({ theme }) => ({
   width: '100%',

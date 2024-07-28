@@ -2,7 +2,6 @@ import React from 'react';
 import { styled } from '@mui/material/styles';
 import { AiFillFacebook, AiFillInstagram, AiFillYoutube, AiOutlineTwitter, AiFillPhone, AiOutlineMail } from "react-icons/ai";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { mobile, tablate } from '../responsive';
 
 const Container = styled('div')(({ theme }) => ({
   marginTop: theme.spacing(2.5),

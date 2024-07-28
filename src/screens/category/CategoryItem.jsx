@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Box, Typography, Button as MuiButton } from '@mui/material';
-import { imageUrl } from '../requestMethods';
+import { imageUrl } from '../../requestMethods';
 
 const Container = styled(Box)(({ theme }) => ({
   flex: 1,

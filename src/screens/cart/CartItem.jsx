@@ -1,10 +1,9 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
 import { Box, Typography, Button } from "@mui/material";
-import { imageUrl } from "../requestMethods";
-import { mobile } from "../responsive";
 import { IoIosRemoveCircleOutline, IoIosAddCircleOutline } from "react-icons/io";
 import { FaRupeeSign } from "react-icons/fa";
+import { imageUrl } from "../../requestMethods";
 
 const Product = styled(Box)(({ theme }) => ({
   display: 'flex',

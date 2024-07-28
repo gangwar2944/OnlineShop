@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import sliderData from './SliderData';
 import { styled } from '@mui/material/styles';
 import { Box, Typography, Button as MuiButton } from '@mui/material';
-import { miniMobile, mobile, tablet } from "../responsive";
 
 // Import Swiper styles
 import "swiper/css";

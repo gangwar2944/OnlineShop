@@ -3,10 +3,10 @@ import { AiOutlineHome, AiOutlineSearch, AiOutlineShoppingCart } from "react-ico
 import { FiLogOut, FiLogIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useAppDispatch, useAppSelector } from "../services/redux/store";
 import { logout } from "../services/redux/login/reducer";
 import { styled } from "@mui/material/styles";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../services/redux/store";
 
 // Styled components using MUI's styled function
 const NavContainer = styled(Box)(({ theme }) => ({

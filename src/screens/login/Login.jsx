@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { styled } from "@mui/system";
-import { useAppDispatch, useAppSelector } from "../services/redux/store";
-import { loginUser } from "../services/redux/login/action";
-import { mobile } from "../responsive";
+import { useAppDispatch, useAppSelector } from "../../services/redux/store";
+import { loginUser } from "../../services/redux/login/action";
+import { mobile } from "../../responsive";
 
 const Container = styled('div')(({ theme }) => ({
   width: '100vw',

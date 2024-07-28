@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Box, Button, Container, TextField, Typography, Select, MenuItem } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { mobile } from "../responsive";
+import { mobile } from "../../responsive";
 
 const BackgroundContainer = styled(Container)(({ theme }) => ({
   width: "100vw",
