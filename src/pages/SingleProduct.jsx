@@ -17,7 +17,7 @@ const MainContainer = styled(Box)``;
 const Wrapper = styled(Box)(({ theme }) => ({
   marginTop: "70px",
   display: "flex",
-  backgroundColor: "aliceblue",
+  backgroundColor: theme.palette.background.default,
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
@@ -29,8 +29,7 @@ const ImgContainer = styled(Box)(({ theme }) => ({
   display: "grid",
   placeItems: "center",
   height: "600px",
-  padding: "5px",
-  border: "1px solid #c9c7c7",
+  border: `1px solid ${theme.palette.grey[100]}`,
   borderRadius: "5px",
 }));
 
@@ -174,6 +173,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const ProductImageAndButton = styled(Box)({
   width: "500px",
+  paddingTop:"30px"
 });
 
 const ButtonContainer = styled(Box)({

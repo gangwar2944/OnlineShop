@@ -3,6 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+ background-color: #f6f6f9;
+}
 .container{
     width: 98vw;
     margin: 1vw;
